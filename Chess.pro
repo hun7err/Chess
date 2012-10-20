@@ -21,3 +21,15 @@ HEADERS  += mainwindow.h \
     defs.h
 
 FORMS    += mainwindow.ui
+
+HEADERS += \
+    pawn.h
+
+SOURCES += \
+    pawn.cpp
+
+HEADERS += \
+    game.h
+
+SOURCES += \
+    game.cpp

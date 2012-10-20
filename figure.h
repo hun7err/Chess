@@ -3,7 +3,7 @@
 #include "defs.h"
 
 class Figure {
-    private:
+    protected:
         Pos curPos;
         short int val;
     public:
