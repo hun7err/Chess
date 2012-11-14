@@ -14,32 +14,33 @@
     #define HISTORY_H
 
     typedef struct history_record{
-        Pos pos_before,
-            pos_after;
-        bool other_moved;
-        history_record * sec_hist_rec;
+        Pos Position_before,
+            Position_after,
+            Other_F_Pos_before,
+            Other_F_Pos_after;
+        bool Other_figure_moved;
     } Hist_rec;
 
 
 #endif // HISTORY_H
-
 
 #ifndef FIG_H
     #define FIG_H
 
     class Figure{
         public:
-            int no;  //0-King, 1-Pawn, 2-Rook, 3-Bishop, 4-Knight, 5-Queen
-            bool color;
-            Pos curPos,
-                *kingPos;
+            int no,         // 0-King, 1-Pawn, 2-Rook, 3-Bishop, 4-Knight, 5-Queen
+                index;      // in Set[] table
+            bool color;     // 0-white, 1-black
+            Pos curPos;
             int val;
             list <Hist_rec> fig_hist;
-            vector <Pos> possibe_moves();
+            virtual vector <Pos> possible_moves();
             bool checkMove(Pos newPos);
             bool checkBoundaries(Pos newPos);
-            bool move(Pos newPos);
-            short int getVal();
+            int move(Pos newPos);
+            bool changeType(int newType);
+            int getVal();
         Figure();
         ~Figure();
     };
@@ -49,11 +50,18 @@
 #ifndef CHESS_H
     #define CHESS_H
 
-    struct Chess{
+    class Chess{
         Figure Set[32];
         vector <Pos> Poss_Moves[16];
         list <Figure*> History;
-        Figure * Board[8][8];
+        Figure * Board[100]; // ind 0-63 <- board
+                             // ind 64-95 <- pointers to Set
+                             // ind 99 <- pointer to History.top() - used for "en passant"
+    bool new_game();
+    bool undo();
+    bool move(Pos oldPos, Pos newPos);
+    Chess();
+    ~Chess();
     };
 
 #endif // CHESS_H

@@ -3,7 +3,6 @@
 Figure::Figure(){}
 Figure::~Figure(){}
 
-
 bool Figure::checkMove(Pos newPos) {
     return this->checkBoundaries(newPos);
 }
@@ -14,21 +13,50 @@ bool Figure::checkBoundaries(Pos newPos) {
     else return true;
 }
 
-bool Figure::move(Pos newPos) {
+int Figure::move(Pos newPos) {// to edit
     if(checkMove(newPos)) {
         Hist_rec To_add;
-        To_add.pos_before = curPos;
+        To_add.Position_before = curPos;
 
         this->curPos.x = newPos.x;
         this->curPos.y = newPos.y;
 
-        To_add.pos_after = newPos;
+        To_add.Position_after = newPos;
 
         this->fig_hist.push_back(To_add);
         return true;
     } else return false;
 }
 
-short int Figure::getVal() {
+int Figure::getVal() {
     return val;
+}
+
+bool Figure::changeType(int newType){
+    if( no==PAWN )
+        if ( curPos.y==0 || curPos.y==7 )
+            if ( newType==ROOK || newType==BISHOP || newType==KNIGHT || newType==QUEEN ){
+                this->no = newType;
+                return true;
+            }
+    return false;
+}
+
+///#######################################
+
+Chess::Chess(){}
+Chess::~Chess(){}
+
+bool Chess::new_game(){
+
+    for(int i = 0; i<100; i++){
+        Board[i] = NULL;
+    }
+    for(int i = 0; i<32; i++){
+        Board[i+64] = &Set[i];
+    }
+    History.clear();
+    Set[0];
+
+
 }
