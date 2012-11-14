@@ -3,45 +3,45 @@
 
     #include "chess.h"
 
-    class Pawn : Figure{
+    class Pawn : private Figure{
         public:
-            vector <Pos> possibe_moves(Figure * Board[8][8]);
+            vector <Pos> possible_moves(Figure * Board[]);
     Pawn(Pos pos);
     ~Pawn();
     };
 
-    class Queen : Figure{
+    class Queen : private Figure{
         public:
-            vector <Pos> possibe_moves(Figure * Board[8][8]);
+            vector <Pos> possible_moves(Figure * Board[]);
     Queen(Pos pos);
     ~Queen();
     };
 
-    class Rook : Figure{
+    class Rook : private Figure{
         public:
-            vector <Pos> possibe_moves(Figure * Board[8][8]);
+            vector <Pos> possible_moves(Figure * Board[]);
     Rook(Pos pos);
     ~Rook();
     };
 
-    class Bishop : Figure{
+    class Bishop : private Figure{
         public:
-            vector <Pos> possibe_moves(Figure * Board[8][8]);
+            vector <Pos> possible_moves(Figure * Board[]);
     Bishop(Pos pos);
     ~Bishop();
     };
 
-    class Knight : Figure{
+    class Knight : private Figure{
         public:
-            vector <Pos> possibe_moves(Figure * Board[8][8]);
+            vector <Pos> possible_moves(Figure * Board[]);
     Knight(Pos pos);
     ~Knight();
     };
 
-    class King : Figure{
+    class King : private Figure{
         public:
-            vector <Pos> possibe_moves(Figure * Board[8][8]);
-            bool not_in_danger( Figure * Board[8][8], bool color);
+            vector <Pos> possible_moves(Figure * Board[]);
+            bool not_in_danger( Figure * Board[], bool color);
     King(Pos pos);
     ~King();
     };
