@@ -16,4 +16,18 @@
     #define list std::list
     #define pair std::pair
 
+    /// Figures types (no)
+    #define KING 0
+    #define PAWN 1
+    #define ROOK 2
+    #define BISHOP 3
+    #define KNIGHT 4
+    #define QUEEN 5
+
+    /// Figure::move(...) posiible returns:
+    #define FALSE 0 // move impossible
+    #define TRUE 1  // moved
+    #define MAT 2   // end of game by winning
+    #define PAT 3   // end of game by no more possible moves
+
 #endif // includes_h
