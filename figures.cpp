@@ -517,3 +517,4 @@ bool King::not_in_danger( Figure *Board[], bool color){
 
     return true;
 }
+

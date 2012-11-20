@@ -15,10 +15,11 @@
 
     typedef struct history_record{
         Pos Position_before,
-            Position_after,
-            Other_F_Pos_before,
-            Other_F_Pos_after;
-        bool Other_figure_moved;
+            Position_after;
+        bool Other_figure_moved,
+             Other_figure_killed,
+             promoted;
+        int Other_F_ind;
     } Hist_rec;
 
 
@@ -32,9 +33,11 @@
             int no,         // 0-King, 1-Pawn, 2-Rook, 3-Bishop, 4-Knight, 5-Queen
                 index;      // in Set[] table
             bool color;     // 0-white, 1-black
+            bool alive;
             Pos curPos;
             int val;
-            list <Hist_rec> fig_hist;
+            stack <Hist_rec> fig_hist;
+
             virtual vector <Pos> possible_moves();
             bool checkMove(Pos newPos);
             bool checkBoundaries(Pos newPos);
@@ -52,16 +55,20 @@
 
     class Chess{
         Figure Set[32];
-        vector <Pos> Poss_Moves[16];
-        list <Figure*> History;
+        vector <Pos> Poss_Moves;
+        stack <Figure*> History;
+        bool curr_color;
         Figure * Board[100]; // ind 0-63 <- board
                              // ind 64-95 <- pointers to Set
                              // ind 99 <- pointer to History.top() - used for "en passant"
-    bool new_game();
-    bool undo();
-    bool move(Pos oldPos, Pos newPos);
     Chess();
     ~Chess();
+    bool new_game();
+    bool move(Pos oldPos, Pos newPos);
+    bool changeType(Pos curPos, int newType);//to do
+    bool undo(); // to do
+    vector <Pos> figures_to_move();
+    vector <Pos> poss_moves(Pos figPos);
     };
 
 #endif // CHESS_H
