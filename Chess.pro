@@ -14,22 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    figure.cpp
+    figures.cpp \
+    chess.cpp \
+    game.cpp
 
 HEADERS  += mainwindow.h \
-    figure.h \
-    defs.h
-
-FORMS    += mainwindow.ui
-
-HEADERS += \
-    pawn.h
-
-SOURCES += \
-    pawn.cpp
-
-HEADERS += \
+    #defs.h \
+    includes.h \
+    figures.h \
+    chess.h \
     game.h
 
-SOURCES += \
-    game.cpp
+FORMS    += mainwindow.ui

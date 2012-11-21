@@ -33,6 +33,8 @@ int Figure::move(Pos newPos) {
     } else return false;
 }
 
+vector <Pos> Figure::possible_moves() {}
+
 int Figure::getVal() {
     return val;
 }

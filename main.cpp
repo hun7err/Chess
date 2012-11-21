@@ -1,5 +1,4 @@
 #include <QApplication>
-#include <QGridLayout>
 #include "mainwindow.h"
 #include "game.h"
 
