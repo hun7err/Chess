@@ -12,6 +12,43 @@ Pos NPos( short int x, short int y){
 
 ///########################################
 
+Figure::Figure(){}
+Figure::~Figure(){}
+
+bool Figure::checkMove(Pos newPos) {
+    return this->checkBoundaries(newPos);
+}
+
+bool Figure::checkBoundaries(Pos newPos) {
+    if(newPos.x < 0 || newPos.x >= 8 || newPos.y < 0 || newPos.y >= 8)
+           return false;
+    else return true;
+}
+
+int Figure::move(Pos newPos) {
+    if(checkMove(newPos)) {
+        this->curPos.x = newPos.x;
+        this->curPos.y = newPos.y;
+        return true;
+    } else return false;
+}
+
+int Figure::getVal() {
+    return val;
+}
+
+bool Figure::changeType(int newType){
+    if( no==PAWN )
+        if ( curPos.y==0 || curPos.y==7 )
+            if ( newType==ROOK || newType==BISHOP || newType==KNIGHT || newType==QUEEN ){
+                this->no = newType;
+                return true;
+            }
+    return false;
+}
+
+///#######################################
+
 Pawn::Pawn(Pos pos) {
     this->curPos.x = pos.x;
     this->curPos.y = pos.y;

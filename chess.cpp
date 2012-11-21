@@ -1,42 +1,4 @@
 #include "chess.h"
-#include "figures.h"
-
-Figure::Figure(){}
-Figure::~Figure(){}
-
-bool Figure::checkMove(Pos newPos) {
-    return this->checkBoundaries(newPos);
-}
-
-bool Figure::checkBoundaries(Pos newPos) {
-    if(newPos.x < 0 || newPos.x >= 8 || newPos.y < 0 || newPos.y >= 8)
-           return false;
-    else return true;
-}
-
-int Figure::move(Pos newPos) {
-    if(checkMove(newPos)) {
-        this->curPos.x = newPos.x;
-        this->curPos.y = newPos.y;
-        return true;
-    } else return false;
-}
-
-int Figure::getVal() {
-    return val;
-}
-
-bool Figure::changeType(int newType){
-    if( no==PAWN )
-        if ( curPos.y==0 || curPos.y==7 )
-            if ( newType==ROOK || newType==BISHOP || newType==KNIGHT || newType==QUEEN ){
-                this->no = newType;
-                return true;
-            }
-    return false;
-}
-
-///#######################################
 
 Chess::Chess(){
     this->new_game();
@@ -136,7 +98,7 @@ vector <Pos> Chess::poss_moves(Pos figPos){
 
 }
 
-bool Chess::move(Pos oldPos, Pos newPos){
+int Chess::move(Pos oldPos, Pos newPos){
     Hist_rec rec;
     rec.Other_figure_moved = false;
     rec.Other_figure_killed = false;
@@ -175,13 +137,18 @@ bool Chess::move(Pos oldPos, Pos newPos){
     if(tmp->no==PAWN && (newPos.y==0 || newPos.y==7)){ // promocja
         rec.promoted = true;
     }
-    if(!tmp->move(newPos)) return false;
+    if(!tmp->move(newPos)) return 0;
     Board[newPos.x*8+newPos.y] = tmp;
     Board[oldPos.x*8+oldPos.y] = NULL;
     rec.Position_after = tmp->curPos;
     tmp->fig_hist.push(rec);
     History.push(tmp);
-    return true;
+
+    if(curr_color) curr_color = false;
+    else curr_color = true;
+
+    if(rec.promoted) return 2;
+    else return 1;
 }
 
 bool Chess::undo(){ // to do
@@ -212,7 +179,16 @@ bool Chess::undo(){ // to do
     if(rec.promoted){ // promocja
         tmp->no = 0;
     }
+
+    if(curr_color) curr_color = false;
+    else curr_color = true;
+
     return true;
 
 }
+
+bool Chess::changeType(Pos curPos, int newType){
+    return Board[curPos.x*8+curPos.y]->changeType(newType);
+}
+
 
