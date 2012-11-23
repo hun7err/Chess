@@ -12,23 +12,21 @@ TARGET = Chess
 TEMPLATE = app
 
 
-SOURCES += src/mainwindow.cpp \
-    src/main.cpp \
-    src/game.cpp \
-    src/figures.cpp \
-    src/chess.cpp
+SOURCES += ../src/mainwindow.cpp \
+    ../src/main.cpp \
+    ../src/game.cpp \
+    ../src/figures.cpp \
+    ../src/chess.cpp
 
-HEADERS  += include/mainwindow.h \
-    include/includes.h \
-    include/game.h \
-    include/figures.h \
-    include/chess.h
+HEADERS  += ../include/mainwindow.h \
+    ../include/includes.h \
+    ../include/game.h \
+    ../include/figures.h \
+    ../include/chess.h
 
-FORMS    += \
-    ui/mainwindow.ui
+FORMS    += ../ui/mainwindow.ui
 
-RESOURCES += \
-    res/resources.qrc
+RESOURCES += ../res/resources.qrc
 
 CONFIG(debug, debug|release) {
         TARGET = ../Chess/bin/debug/Chess

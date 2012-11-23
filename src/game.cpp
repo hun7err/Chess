@@ -23,17 +23,17 @@ void BoardWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     QImage img;
 
-    cout << "Board: ";
+    /*cout << "Board: ";
     for(int i = 0; i < 96; i++)
         if(Game::chess->Board[i] != NULL)
             cout << Game::chess->Board[i]->no << "(c: " << Game::chess->Board[i]->color << ",x=" << Game::chess->Board[i]->curPos.x <<",y=" << Game::chess->Board[i]->curPos.y << ") ";
         else
             cout << "[NULL] ";
-    cout << endl;
+    cout << endl;*/
 
-    cout << "Checking field val" << endl;
+    //cout << "Checking field val" << endl;
     if(Game::playing) {
-        cout << "Playing, checking color. Pos: x = " << x << ", y = " << y << endl;
+       // cout << "Playing, checking color. Pos: x = " << x << ", y = " << y << endl;
         Figure *f = new Figure();
         for(int i = 0; i < 32; i++) {
             if(Game::chess->Board[64+i] != NULL && Game::chess->Board[64+i]->curPos.x == x && Game::chess->Board[64+i]->curPos.y == y) {
@@ -42,7 +42,7 @@ void BoardWidget::paintEvent(QPaintEvent *) {
             }
         }
     if(f->color == 0) {
-        cout << "Before switch, x = " << x << ", y = " << y << endl;
+        //cout << "Before switch, x = " << x << ", y = " << y << endl;
         switch(f->no) {
             case KING:
                 img.load(":/images/k1.png");
@@ -64,7 +64,7 @@ void BoardWidget::paintEvent(QPaintEvent *) {
                 break;
         }
     } else {
-        cout << "in else{}" << endl;
+        //cout << "in else{}" << endl;
         switch(f->no) {
             case KING:
                 img.load(":/images/k2.png");
@@ -90,11 +90,11 @@ void BoardWidget::paintEvent(QPaintEvent *) {
         }*/
     }
     }
-    cout << "img: " << img.isNull() << endl;
+    //cout << "img: " << img.isNull() << endl;
 
     //qDebug() << img.isNull();
     if(!(img.isNull())) {
-        cout << "Trying drawImage" << endl;
+       // cout << "Trying drawImage" << endl;
         //painter.drawImage(QRectF(0.0,0.0,61.0,61.0),img, QRectF(-6.0,0.0,65.0,61.0));
         painter.drawImage(QPoint(7,5),img);
     }
