@@ -10,7 +10,7 @@ bool Chess::new_game(){
     int kind[]= {KING,QUEEN,BISHOP,BISHOP,KNIGHT,KNIGHT,ROOK,ROOK,PAWN,PAWN,PAWN,PAWN,PAWN,PAWN,PAWN,PAWN},
         fval[]={13,9,3,3,3,3,5,5,1,1,1,1,1,1,1,1},
         pos_x[]={4,3,2,5,1,6,0,7},
-        pos_y[]={0,7};
+        pos_y[]={0,1,7,6};
 
     for(int i = 0; i<100; i++){
         Board[i] = NULL;
@@ -21,15 +21,8 @@ bool Chess::new_game(){
         Set[i].color = i/16;
         Set[i].no = kind[i%16];
         Set[i].curPos.x = pos_x[i%8];
-        Set[i].curPos.y = pos_y[i/16];
-        // a small improvement - there was a small bug here overwriting 0. and 7. line of board
-        if(Set[i].no == PAWN) {
-            if(Set[i].color == 0) {
-                Set[i].curPos.y++;
-            } else {
-                Set[i].curPos.y--;
-            }
-        }
+        Set[i].curPos.y = pos_y[i/8];
+        // a small improvement of the inprovement, no need of other if()s - there was a small bug here overwriting 0. and 7. line of board
         Set[i].val = fval[i%16];
         Set[i].alive = true;
         int currPos = Set[i].curPos.x*8+Set[i].curPos.y;
@@ -38,7 +31,7 @@ bool Chess::new_game(){
     }
     while(!History.empty())
         History.pop();
-    curr_color = 0;
+    curr_color = false;
     playing = true;
 
     return true;
@@ -161,7 +154,7 @@ int Chess::move(Pos oldPos, Pos newPos){
     else return 1;
 }
 
-bool Chess::undo(){ // to do
+bool Chess::undo(){
     if(History.empty()) return false;
     Hist_rec rec = History.top()->fig_hist.top();
     History.pop();
@@ -173,7 +166,7 @@ bool Chess::undo(){ // to do
         Set[rec.Other_F_ind].alive = true;
         Board[Set[rec.Other_F_ind].curPos.x*8+Set[rec.Other_F_ind].curPos.y] = &Set[rec.Other_F_ind];
     }
-    else if(rec.Other_figure_moved){ // roszady todo
+    else if(rec.Other_figure_moved){ // roszady
         if(rec.Position_before.x==2){
             Set[rec.Other_F_ind].curPos.x = 0;
             Board[3*8+rec.Position_before.y] = NULL;
@@ -183,7 +176,6 @@ bool Chess::undo(){ // to do
             Set[rec.Other_F_ind].curPos.x = 7;
             Board[5*8+rec.Position_before.y] = NULL;
             Board[7*8+rec.Position_before.y] = &Set[rec.Other_F_ind];
-
         }
     }
     if(rec.promoted){ // promocja
