@@ -21,13 +21,14 @@ class BoardWidget : public QWidget {
 
 class Game {
     private:
-        BoardWidget *wboard[8][8];  // widget board
+        static BoardWidget* wboard[8][8];  // widget board
         QWidget **parent;
         int width, height;
     public:
         static bool playing;
         static Chess* chess;
-        BoardWidget *getElem(int x, int y);
+        //BoardWidget *getElem(int x, int y);
+        static BoardWidget *getElem(int x, int y);
         void setBoard(QColor even, QColor odd);
         void setWBoardParent(QWidget ** par);
     Game(int w = 61, int h = 61);

@@ -4,6 +4,8 @@
 
 Chess* Game::chess;
 bool Game::playing;
+BoardWidget* Game::wboard[8][8];
+//BoardWidget* Game::getElem(int x, int y) {}
 
 Game::Game(int w, int h) {
     parent = 0;
@@ -23,13 +25,13 @@ void BoardWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     QImage img;
 
-    /*cout << "Board: ";
-    for(int i = 0; i < 96; i++)
+    cout << "Board: ";
+    for(int i = 0; i < 64; i++)
         if(Game::chess->Board[i] != NULL)
-            cout << Game::chess->Board[i]->no << "(c: " << Game::chess->Board[i]->color << ",x=" << Game::chess->Board[i]->curPos.x <<",y=" << Game::chess->Board[i]->curPos.y << ") ";
+            cout << Game::chess->Board[i]->no << "(c" << Game::chess->Board[i]->color << " x" << Game::chess->Board[i]->curPos.x <<" y" << Game::chess->Board[i]->curPos.y << ") ";
         else
             cout << "[NULL] ";
-    cout << endl;*/
+    cout << endl;
 
     //cout << "Checking field val" << endl;
     if(Game::playing) {
@@ -97,12 +99,16 @@ void BoardWidget::paintEvent(QPaintEvent *) {
        // cout << "Trying drawImage" << endl;
         //painter.drawImage(QRectF(0.0,0.0,61.0,61.0),img, QRectF(-6.0,0.0,65.0,61.0));
         painter.drawImage(QPoint(7,5),img);
+        //this->repaint();
+        //painter.Antialiasing = true;
     }
     //std::cout << "painting" << std::endl;
 }
 
 void BoardWidget::mousePressEvent(QMouseEvent *) {
     this->toggleColor();
+    BoardWidget* w = Game::getElem(0,0);
+    w->toggleColor();
     //this->setStyleSheet(QString("background-color: red"));
 }
 
@@ -122,7 +128,7 @@ void BoardWidget::setToggleColor(QColor toggle) {
 }
 
 BoardWidget* Game::getElem(int x, int y) {
-    return this->wboard[x][y];
+    return Game::wboard[x][y];
 }
 
 void BoardWidget::setPos(int _x, int _y) {
