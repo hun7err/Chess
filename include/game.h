@@ -2,21 +2,25 @@
 #define GAME_H
 #include <QWidget>
 #include <QColor>
+#include <QPainter>
 using namespace std;
 #include "chess.h"
 
 class BoardWidget : public QWidget {
+    private:
+        void paintEvent(QPaintEvent *);
+        void mousePressEvent(QMouseEvent *);
     public:
         int x, y;
+        QColor fieldColor;
         QColor before;
         QColor after;
         void setColor(QColor col);
-        void paintEvent(QPaintEvent *);
-        void mousePressEvent(QMouseEvent *);
         void toggleColor();
         void setToggleColor(QColor toggle);
         void setPos(int _x, int _y);
     BoardWidget(QWidget *parent = 0);
+    ~BoardWidget();
 };
 
 class Game {

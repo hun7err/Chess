@@ -1,5 +1,4 @@
 #include "../include/game.h"
-#include <QPainter>
 #include <iostream>
 
 Chess* Game::chess;
@@ -19,33 +18,41 @@ Game::Game(int w, int h) {
 }
 Game::~Game() {}
 
-BoardWidget::BoardWidget(QWidget *parent) : QWidget(parent) {}
+BoardWidget::BoardWidget(QWidget *parent) : QWidget(parent) {
+}
+BoardWidget::~BoardWidget() {
+}
 
 void BoardWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     QImage img;
+    //this->painter->begin(this);
 
-    cout << "Board: ";
+    /*cout << "Board: ";
     for(int i = 0; i < 64; i++)
         if(Game::chess->Board[i] != NULL)
             cout << Game::chess->Board[i]->no << "(c" << Game::chess->Board[i]->color << " x" << Game::chess->Board[i]->curPos.x <<" y" << Game::chess->Board[i]->curPos.y << ") ";
         else
             cout << "[NULL] ";
-    cout << endl;
+    cout << endl;*/
 
     //cout << "Checking field val" << endl;
     if(Game::playing) {
        // cout << "Playing, checking color. Pos: x = " << x << ", y = " << y << endl;
-        Figure *f = new Figure();
+        //Figure *f = new Figure();
+        Figure f;
         for(int i = 0; i < 32; i++) {
-            if(Game::chess->Board[64+i] != NULL && Game::chess->Board[64+i]->curPos.x == x && Game::chess->Board[64+i]->curPos.y == y) {
+            /*if(Game::chess->Board[64+i] != NULL && Game::chess->Board[64+i]->curPos.x == x && Game::chess->Board[64+i]->curPos.y == y && Game::chess->Board[64+i]->alive) {
                 f = Game::chess->Board[64+i];
                 break;
+            }*/
+            if(Game::chess->Set[i].curPos.x == x && Game::chess->Set[i].curPos.y == y) {
+                f = Game::chess->Set[i];
             }
         }
-    if(f->color == 0) {
+    if(f.color == 0) {
         //cout << "Before switch, x = " << x << ", y = " << y << endl;
-        switch(f->no) {
+        switch(f.no) {
             case KING:
                 img.load(":/images/k1.png");
                 break;
@@ -67,7 +74,7 @@ void BoardWidget::paintEvent(QPaintEvent *) {
         }
     } else {
         //cout << "in else{}" << endl;
-        switch(f->no) {
+        switch(f.no) {
             case KING:
                 img.load(":/images/k2.png");
                 break;
@@ -102,6 +109,7 @@ void BoardWidget::paintEvent(QPaintEvent *) {
         //this->repaint();
         //painter.Antialiasing = true;
     }
+    //this->painter->end();
     //std::cout << "painting" << std::endl;
 }
 
@@ -113,14 +121,15 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
 }
 
 void BoardWidget::setColor(QColor col) {
-    before = col;
+    fieldColor = col;
 }
 
 void BoardWidget::toggleColor() {
     QColor c = before;
     before = after;
     after = c;
-    setStyleSheet(QString("background-color: "+before.name()));
+    setStyleSheet(QString("background-color: "+fieldColor.name()));
+
 }
 
 void BoardWidget::setToggleColor(QColor toggle) {
