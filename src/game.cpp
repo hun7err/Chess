@@ -39,20 +39,38 @@ void BoardWidget::paintEvent(QPaintEvent *) {
     //cout << "Checking field val" << endl;
     if(Game::playing) {
        // cout << "Playing, checking color. Pos: x = " << x << ", y = " << y << endl;
-        //Figure *f = new Figure();
+#define BOARD
+#ifdef BOARD
+        Figure *f = new Figure();
+#else
         Figure f;
-        for(int i = 0; i < 32; i++) {
-            /*if(Game::chess->Board[64+i] != NULL && Game::chess->Board[64+i]->curPos.x == x && Game::chess->Board[64+i]->curPos.y == y && Game::chess->Board[64+i]->alive) {
+#endif
+        //for(int i = 0; i < 32; i++) {
+#ifdef BOARD
+            /*if( Game::chess->Board[64+i]->curPos.x == x && Game::chess->Board[64+i]->curPos.y == y && Game::chess->Board[64+i]->alive) {
                 f = Game::chess->Board[64+i];
                 break;
             }*/
+#else
             if(Game::chess->Set[i].curPos.x == x && Game::chess->Set[i].curPos.y == y) {
                 f = Game::chess->Set[i];
             }
-        }
-    if(f.color == 0) {
+
+#endif
+        //}
+        f = Game::chess->Board[x*8+y];
+        if(f != NULL)
+#ifdef BOARD
+    if(f->color == 0) {
+#else
+        if(f.color == 0) {
+#endif
         //cout << "Before switch, x = " << x << ", y = " << y << endl;
-        switch(f.no) {
+#ifdef BOARD
+        switch(f->no) {
+#else
+            switch(f.no) {
+#endif
             case KING:
                 img.load(":/images/k1.png");
                 break;
@@ -74,7 +92,11 @@ void BoardWidget::paintEvent(QPaintEvent *) {
         }
     } else {
         //cout << "in else{}" << endl;
-        switch(f.no) {
+#ifdef BOARD
+        switch(f->no) {
+#else
+            switch(f.no) {
+#endif
             case KING:
                 img.load(":/images/k2.png");
                 break;
