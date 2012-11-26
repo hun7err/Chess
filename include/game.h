@@ -10,15 +10,19 @@ class BoardWidget : public QWidget {
     private:
         void paintEvent(QPaintEvent *);
         void mousePressEvent(QMouseEvent *);
+        QColor fieldColor;
+        QString before;
+        QString after;
+        bool clicked;
     public:
         int x, y;
-        QColor fieldColor;
-        QColor before;
-        QColor after;
         void setColor(QColor col);
-        void toggleColor();
-        void setToggleColor(QColor toggle);
+        const QColor getColor();
+        void toggleStyle();
+        void setToggleStyle(QString toggle);
         void setPos(int _x, int _y);
+        bool isClicked();
+        void setClicked(bool val);
     BoardWidget(QWidget *parent = 0);
     ~BoardWidget();
 };
@@ -31,6 +35,7 @@ class Game {
     public:
         static bool playing;
         static Chess* chess;
+        static QPoint lastPos;
         //BoardWidget *getElem(int x, int y);
         static BoardWidget *getElem(int x, int y);
         void setBoard(QColor even, QColor odd);

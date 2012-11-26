@@ -1,4 +1,5 @@
 #include "../include/figures.h"
+#include <iostream>
 #define ABS(x) ((x) < 0) ? -(x) : x
 
 template <class T> void swap ( T& a, T& b ){
@@ -35,7 +36,9 @@ int Figure::move(Pos newPos) {
 
 vector <Pos> Figure::possible_moves() {
     vector<Pos> ret;
-    ret.resize(0);
+    ret.resize(1);
+    ret[0].x = 0;
+    ret[0].y = 0;
     return ret;
 }
 
@@ -63,6 +66,7 @@ Pawn::Pawn(Pos pos) {
 Pawn::~Pawn(){}
 
 vector<Pos> Pawn::possible_moves(Figure *Board[]){
+    std::cout << "possible_moves z Pawn (start)" << std::endl;
     vector <Pos> PossMoves;
     Pos test_Pos;
     Figure *currFig, *help, *help2, *tested_Pos, *kill_Fig;
@@ -178,7 +182,7 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
 
 
     Board[curPos.x*8+curPos.y] = currFig;
-
+    std::cout << "possible_moves z Pawn (return)" << std::endl;
     return PossMoves;
 }
 

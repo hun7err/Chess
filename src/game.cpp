@@ -3,6 +3,8 @@
 
 Chess* Game::chess;
 bool Game::playing;
+QPoint Game::lastPos;
+
 BoardWidget* Game::wboard[8][8];
 //BoardWidget* Game::getElem(int x, int y) {}
 
@@ -19,6 +21,9 @@ Game::Game(int w, int h) {
 Game::~Game() {}
 
 BoardWidget::BoardWidget(QWidget *parent) : QWidget(parent) {
+    setClicked(false);
+    Game::lastPos.setX(-1);
+    Game::lastPos.setY(-1);
 }
 BoardWidget::~BoardWidget() {
 }
@@ -39,38 +44,10 @@ void BoardWidget::paintEvent(QPaintEvent *) {
     //cout << "Checking field val" << endl;
     if(Game::playing) {
        // cout << "Playing, checking color. Pos: x = " << x << ", y = " << y << endl;
-#define BOARD
-#ifdef BOARD
-        Figure *f = new Figure();
-#else
-        Figure f;
-#endif
-        //for(int i = 0; i < 32; i++) {
-#ifdef BOARD
-            /*if( Game::chess->Board[64+i]->curPos.x == x && Game::chess->Board[64+i]->curPos.y == y && Game::chess->Board[64+i]->alive) {
-                f = Game::chess->Board[64+i];
-                break;
-            }*/
-#else
-            if(Game::chess->Set[i].curPos.x == x && Game::chess->Set[i].curPos.y == y) {
-                f = Game::chess->Set[i];
-            }
-
-#endif
-        //}
-        f = Game::chess->Board[x*8+y];
-        if(f != NULL)
-#ifdef BOARD
+        Figure *f = Game::chess->Board[x*8+y];
+    if(f != NULL) {
     if(f->color == 0) {
-#else
-        if(f.color == 0) {
-#endif
-        //cout << "Before switch, x = " << x << ", y = " << y << endl;
-#ifdef BOARD
         switch(f->no) {
-#else
-            switch(f.no) {
-#endif
             case KING:
                 img.load(":/images/k1.png");
                 break;
@@ -92,11 +69,7 @@ void BoardWidget::paintEvent(QPaintEvent *) {
         }
     } else {
         //cout << "in else{}" << endl;
-#ifdef BOARD
         switch(f->no) {
-#else
-            switch(f.no) {
-#endif
             case KING:
                 img.load(":/images/k2.png");
                 break;
@@ -116,12 +89,8 @@ void BoardWidget::paintEvent(QPaintEvent *) {
                 img.load(":/images/h2.png");
                 break;
         }
-        /*switch(Game::chess->Board[x*g+y]->no) {
-
-        }*/
     }
     }
-    //cout << "img: " << img.isNull() << endl;
 
     //qDebug() << img.isNull();
     if(!(img.isNull())) {
@@ -131,30 +100,57 @@ void BoardWidget::paintEvent(QPaintEvent *) {
         //this->repaint();
         //painter.Antialiasing = true;
     }
+    }
     //this->painter->end();
     //std::cout << "painting" << std::endl;
 }
 
 void BoardWidget::mousePressEvent(QMouseEvent *) {
-    this->toggleColor();
-    BoardWidget* w = Game::getElem(0,0);
-    w->toggleColor();
+    if(!isClicked()) {
+        Figure *f = Game::chess->Board[x*8+y];
+        if(f != NULL) {
+            this->toggleStyle();
+            // wboard[j][i]->setToggleStyle(QString("background-color: "+wboard[j][i]->getColor().name()+"; border: 3px solid #FF0090"));
+
+            for(unsigned int i = 0; i < dynamic_cast<Pawn*>(f)->possible_moves(Game::chess->Board).size(); i++) {
+                Pos p = dynamic_cast<Pawn*>(f)->possible_moves(Game::chess->Board)[i];
+                std::cout << "Possible move: x = " << p.x << ", y = " << p.y << std::endl;
+                Game::getElem(p.y , p.x)->setToggleStyle("background-color: yellow");
+                Game::getElem(p.y , p.x)->toggleStyle();
+            }
+            setClicked(true);
+        }
+    }
+    //BoardWidget* w = Game::getElem(0,0);
+    //w->toggleColor();
     //this->setStyleSheet(QString("background-color: red"));
 }
 
 void BoardWidget::setColor(QColor col) {
     fieldColor = col;
+    before = QString("background-color: "+fieldColor.name());
 }
 
-void BoardWidget::toggleColor() {
-    QColor c = before;
+bool BoardWidget::isClicked() {
+    return this->clicked;
+}
+
+void BoardWidget::setClicked(bool val) {
+    this->clicked = val;
+}
+
+const QColor BoardWidget::getColor() {
+    return this->fieldColor;
+}
+
+void BoardWidget::toggleStyle() {
+    QString temp = before;
     before = after;
-    after = c;
-    setStyleSheet(QString("background-color: "+fieldColor.name()));
-
+    after = temp;
+    setStyleSheet(before);
 }
 
-void BoardWidget::setToggleColor(QColor toggle) {
+void BoardWidget::setToggleStyle(QString toggle) {
     after = toggle;
 }
 
@@ -176,7 +172,6 @@ void Game::setBoard(QColor even, QColor odd) {
         for (int j = 0; j < 8; j++) {
             wboard[j][i] = new BoardWidget(*parent);
             wboard[j][i]->setGeometry(i*width,j*height, width, height);
-            wboard[j][i]->setToggleColor(QColor("#1111ff"));
             wboard[j][i]->setPos(i, j);
             if((i % 2 == 0 && j % 2 == 0) || (j % 2 == 1 && i % 2 == 1)) {
                 wboard[j][i]->setColor(even);
@@ -185,6 +180,7 @@ void Game::setBoard(QColor even, QColor odd) {
                 wboard[j][i]->setColor(odd);
                 wboard[j][i]->setStyleSheet(QString("background-color: "+odd.name()));
             }
+            wboard[j][i]->setToggleStyle(QString("background-color: "+wboard[j][i]->getColor().name()+"; border: 3px solid #FF0090"));
             wboard[j][i]->setAutoFillBackground(true);
             wboard[j][i]->setVisible(true);
         }
