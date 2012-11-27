@@ -67,7 +67,8 @@ Pawn::~Pawn(){}
 
 vector<Pos> Pawn::possible_moves(Figure *Board[]){
     std::cout << "possible_moves z Pawn (start)" << std::endl;
-    std::cout << "adres curPos: " << &curPos << std::endl;
+    std::cout << "(Pawn) adres curPos: " << &curPos << std::endl;
+    std::cout << "(Figure) adres curPos: " << &(Figure::curPos) << std::endl;
     //std::cout << "Pawn: curPos.x = " << Pawn::curPos.x << ", y = " << Pawn::curPos.y << std::endl;
     //std::cout << "Figure: curPos.x = " << Figure::curPos.x << ", y = " << Figure::curPos.y << std::endl;
     vector <Pos> PossMoves;
