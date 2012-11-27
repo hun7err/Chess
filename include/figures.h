@@ -39,7 +39,7 @@
             int val;
             stack <Hist_rec> fig_hist;
 
-            virtual vector <Pos> possible_moves();
+            virtual vector <Pos> possible_moves(Figure * Board[]);
             bool checkMove(Pos newPos);
             bool checkBoundaries(Pos newPos);
             int move(Pos newPos);
@@ -57,43 +57,43 @@
     class Pawn : public Figure{
         public:
             vector <Pos> possible_moves(Figure * Board[]);
-    Pawn(Pos pos);
+    Pawn();
     ~Pawn();
     };
 
-    class Queen : private Figure{
+    class Queen : public Figure{
         public:
             vector <Pos> possible_moves(Figure * Board[]);
-    Queen(Pos pos);
+    Queen();
     ~Queen();
     };
 
-    class Rook : private Figure{
+    class Rook : public Figure{
         public:
             vector <Pos> possible_moves(Figure * Board[]);
-    Rook(Pos pos);
+    Rook();
     ~Rook();
     };
 
-    class Bishop : private Figure{
+    class Bishop : public Figure{
         public:
             vector <Pos> possible_moves(Figure * Board[]);
-    Bishop(Pos pos);
+    Bishop();
     ~Bishop();
     };
 
-    class Knight : private Figure{
+    class Knight : public Figure{
         public:
             vector <Pos> possible_moves(Figure * Board[]);
-    Knight(Pos pos);
+    Knight();
     ~Knight();
     };
 
-    class King : private Figure{
+    class King : public Figure{
         public:
             vector <Pos> possible_moves(Figure * Board[]);
             bool not_in_danger( Figure * Board[], bool color);
-    King(Pos pos);
+    King();
     ~King();
     };
 

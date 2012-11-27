@@ -58,43 +58,35 @@ bool Figure::changeType(int newType){
 
 ///#######################################
 
-Pawn::Pawn(Pos pos) {
-    this->curPos.x = pos.x;
-    this->curPos.y = pos.y;
-}
-
+Pawn::Pawn(){}
 Pawn::~Pawn(){}
 
 vector<Pos> Pawn::possible_moves(Figure *Board[]){
     std::cout << "possible_moves z Pawn (start)" << std::endl;
-    std::cout << "(Pawn) adres curPos: " << &curPos << std::endl;
-    std::cout << "(Figure) adres curPos: " << &(Figure::curPos) << std::endl;
-    //std::cout << "Pawn: curPos.x = " << Pawn::curPos.x << ", y = " << Pawn::curPos.y << std::endl;
-    //std::cout << "Figure: curPos.x = " << Figure::curPos.x << ", y = " << Figure::curPos.y << std::endl;
     vector <Pos> PossMoves;
     Pos test_Pos;
-    //std::cout << "przed Board[100]\n";
-    Board[100] = Board[curPos.x*8+curPos.y];
+    Figure *currFig, *help, *help2, *tested_Pos, *kill_Fig;
+    std::cout << "przypisanie" << std::endl;
+    currFig = Board[curPos.x*8+curPos.y];
+    std::cout << "przypisanie" << std::endl;
     Board[curPos.x*8+curPos.y] = NULL;
-    std::cout << "po Board[] = NULL";
     King *king = dynamic_cast<King *> (Board[64+color*16]);
-
     // 1 Do przodu:
     std::cout << "line78 z Pawn (start)" << std::endl;
     test_Pos = NPos(curPos.x,curPos.y+color*(-2)+1);
     std::cout << "line80 z Pawn (start)" << std::endl;
     if(checkBoundaries(test_Pos)==true){
     std::cout << "line82 z Pawn (start)" << std::endl;
-        Board[102] = Board[curPos.x*8+curPos.y+color*(-2)+1];
+        tested_Pos = Board[curPos.x*8+curPos.y+color*(-2)+1];
     std::cout << "line84 z Pawn (start)" << std::endl;
-        if(Board[102]==NULL){
-            Board[102] = Board[100];
+        if(tested_Pos==NULL){
+            tested_Pos = currFig;
     std::cout << "line87 z Pawn (start)" << std::endl;
             if(king->not_in_danger(Board,color)==true){
                  PossMoves.push_back(test_Pos);
     std::cout << "line90 z Pawn (start)" << std::endl;
             }
-            Board[102] = NULL;
+            tested_Pos = NULL;
 
         }
     }
@@ -103,14 +95,14 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
     if(fig_hist.empty()){
         test_Pos = NPos(curPos.x,curPos.y+color*(-4)+2);
         if(checkBoundaries(test_Pos)==true){
-            Board[102] = Board[curPos.x*8+curPos.y+color*(-4)+2];
-            if(Board[102]==NULL){
-                Board[102] = Board[100];
+            tested_Pos = Board[curPos.x*8+curPos.y+color*(-4)+2];
+            if(tested_Pos==NULL){
+                tested_Pos = currFig;
 
                 if(king->not_in_danger(Board,color)==true)
                      PossMoves.push_back(test_Pos);
 
-                Board[102] = NULL;
+                tested_Pos = NULL;
 
             }
         }
@@ -118,31 +110,31 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
     // bicia
     test_Pos = NPos(curPos.x+1,curPos.y+color*(-2)+1);
     if(checkBoundaries(test_Pos)==true){
-        Board[102] = Board[(curPos.x+1)*8+curPos.y+color*(-2)+1];
-        if(Board[102]!=NULL)
-            if(Board[102]->color != color){
-                Board[101] = Board[102];
-                Board[102] = Board[100];
+        tested_Pos = Board[(curPos.x+1)*8+curPos.y+color*(-2)+1];
+        if(tested_Pos!=NULL)
+            if(tested_Pos->color != color){
+                help = tested_Pos;
+                tested_Pos = currFig;
 
                 if(king->not_in_danger(Board,color)==true)
                     PossMoves.push_back(test_Pos);
 
-                Board[102] = Board[101];
+                tested_Pos = help;
 
             }
     }
     test_Pos = NPos(curPos.x-1,curPos.y+color*(-2)+1);
     if(checkBoundaries(test_Pos)==true){
-        Board[102] = Board[(curPos.x-1)*8+curPos.y+color*(-2)+1];
-        if(Board[102]!=NULL)
-            if(Board[102]->color != color){
-                Board[101] = Board[102];
-                Board[102] = Board[100];
+        tested_Pos = Board[(curPos.x-1)*8+curPos.y+color*(-2)+1];
+        if(tested_Pos!=NULL)
+            if(tested_Pos->color != color){
+                help = tested_Pos;
+                tested_Pos = currFig;
 
                 if(king->not_in_danger(Board,color)==true)
                     PossMoves.push_back(test_Pos);
 
-                Board[102] = Board[101];
+                tested_Pos = help;
 
             }
     }
@@ -150,60 +142,56 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
     test_Pos = NPos(curPos.x+1,curPos.y+color*(-2)+1);
     if(checkBoundaries(test_Pos)==true)
         if(curPos.x-color == 4){
-            Board[103] = Board[(curPos.x+1)*8+curPos.y];
-            Board[102] = Board[(curPos.x+1)*8+curPos.y+color*(-2)+1];
-            if(Board[102]==NULL)
-                if(Board[103]!=NULL)
-                    if(Board[103]->no==PAWN)
-                        if(Board[103] == Board[99]){
-                            Board[101] = Board[102];
-                            Board[101] = Board[103];
-                            Board[102] = Board[100];
-                            Board[103] = NULL;
+            kill_Fig = Board[(curPos.x+1)*8+curPos.y];
+            tested_Pos = Board[(curPos.x+1)*8+curPos.y+color*(-2)+1];
+            if(tested_Pos==NULL)
+                if(kill_Fig!=NULL)
+                    if(kill_Fig->no==PAWN)
+                        if(kill_Fig == Board[99]){
+                            help = tested_Pos;
+                            help2 = kill_Fig;
+                            tested_Pos = currFig;
+                            kill_Fig = NULL;
 
                             if(king->not_in_danger(Board,color)==true)
                                 PossMoves.push_back(test_Pos);
 
-                            Board[102] = Board[101];
-                            Board[103] = Board[101];
+                            tested_Pos = help;
+                            kill_Fig = help2;
             }
         }
 
     test_Pos = NPos(curPos.x-1,curPos.y+color*(-2)+1);
     if(checkBoundaries(test_Pos)==true)
         if(curPos.x-color == 4){
-            Board[103] = Board[(curPos.x-1)*8+curPos.y];
-            Board[102] = Board[(curPos.x-1)*8+curPos.y+color*(-2)+1];
-            if(Board[102]==NULL)
-                if(Board[103]!=NULL)
-                    if(Board[103]->no==PAWN)
-                        if(Board[103] == Board[99]){
-                            Board[101] = Board[102];
-                            Board[101] = Board[103];
-                            Board[102] = Board[100];
-                            Board[103] = NULL;
+            kill_Fig = Board[(curPos.x-1)*8+curPos.y];
+            tested_Pos = Board[(curPos.x-1)*8+curPos.y+color*(-2)+1];
+            if(tested_Pos==NULL)
+                if(kill_Fig!=NULL)
+                    if(kill_Fig->no==PAWN)
+                        if(kill_Fig == Board[99]){
+                            help = tested_Pos;
+                            help2 = kill_Fig;
+                            tested_Pos = currFig;
+                            kill_Fig = NULL;
 
                             if(king->not_in_danger(Board,color)==true)
                                 PossMoves.push_back(test_Pos);
 
-                            Board[102] = Board[101];
-                            Board[103] = Board[101];
+                            tested_Pos = help;
+                            kill_Fig = help2;
             }
         }
 
 
-    Board[curPos.x*8+curPos.y] = Board[100];
+    Board[curPos.x*8+curPos.y] = currFig;
     std::cout << "possible_moves z Pawn (return)" << std::endl;
     return PossMoves;
 }
 
 ///########################################
 
-Queen::Queen(Pos pos) {
-    this->curPos.x = pos.x;
-    this->curPos.y = pos.y;
-}
-
+Queen::Queen(){}
 Queen::~Queen(){}
 
 vector<Pos> Queen::possible_moves(Figure *Board[]){
@@ -258,11 +246,7 @@ vector<Pos> Queen::possible_moves(Figure *Board[]){
 
 ///########################################
 
-Rook::Rook(Pos pos) {
-    this->curPos.x = pos.x;
-    this->curPos.y = pos.y;
-}
-
+Rook::Rook(){}
 Rook::~Rook(){}
 
 vector <Pos> Rook::possible_moves(Figure *Board[]){
@@ -315,11 +299,7 @@ vector <Pos> Rook::possible_moves(Figure *Board[]){
 
 ///########################################
 
-Bishop::Bishop(Pos pos) {
-    this->curPos.x = pos.x;
-    this->curPos.y = pos.y;
-}
-
+Bishop::Bishop(){}
 Bishop::~Bishop(){}
 
 vector <Pos>Bishop::possible_moves(Figure *Board[]){
@@ -374,11 +354,7 @@ vector <Pos>Bishop::possible_moves(Figure *Board[]){
 
 ///########################################
 
-Knight::Knight(Pos pos) {
-    this->curPos.x = pos.x;
-    this->curPos.y = pos.y;
-}
-
+Knight::Knight(){}
 Knight::~Knight(){}
 
 vector<Pos> Knight::possible_moves(Figure *Board[]){
@@ -424,11 +400,7 @@ vector<Pos> Knight::possible_moves(Figure *Board[]){
 
 ///########################################
 
-King::King(Pos pos) {
-    this->curPos.x = pos.x;
-    this->curPos.y = pos.y;
-}
-
+King::King(){}
 King::~King(){}
 
 vector<Pos> King::possible_moves(Figure *Board[]){

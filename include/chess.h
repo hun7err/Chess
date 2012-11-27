@@ -6,12 +6,12 @@
     class Chess{
         public:
             bool playing;
-            Figure Set[32];
+            Figure* Set[32];
             vector <Pos> Poss_Moves;
             vector <string> moves[2];
             stack <Figure*> History;
             bool curr_color;
-            Figure * Board[110]; // ind 0-63 <- board
+            Figure * Board[100]; // ind 0-63 <- board
                              // ind 64-95 <- pointers to Set
                              // ind 99 <- pointer to History.top() - used for "en passant"
         Chess();
