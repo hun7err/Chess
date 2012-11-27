@@ -111,12 +111,13 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
         if(f != NULL) {
             this->toggleStyle();
             // wboard[j][i]->setToggleStyle(QString("background-color: "+wboard[j][i]->getColor().name()+"; border: 3px solid #FF0090"));
-
-            for(unsigned int i = 0; i < dynamic_cast<Pawn*>(f)->possible_moves(Game::chess->Board).size(); i++) {
-                Pos p = dynamic_cast<Pawn*>(f)->possible_moves(Game::chess->Board)[i];
+            std::cout << "wywoluje Game::chess->poss_moves([" << f->curPos.x << "," << f->curPos.y << "])" << std::endl;
+            vector<Pos> positions = Game::chess->poss_moves(f->curPos);
+            for(unsigned int i = 0; i < positions.size(); i++) {
+                Pos p = positions[i];
                 std::cout << "Possible move: x = " << p.x << ", y = " << p.y << std::endl;
-                Game::getElem(p.y , p.x)->setToggleStyle("background-color: yellow");
-                Game::getElem(p.y , p.x)->toggleStyle();
+                //Game::getElem(p.y, p.x)->setToggleStyle("background-color: yellow");
+                //Game::getElem(p.y, p.x)->toggleStyle();
             }
             setClicked(true);
         }

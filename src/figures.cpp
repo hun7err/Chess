@@ -67,11 +67,14 @@ Pawn::~Pawn(){}
 
 vector<Pos> Pawn::possible_moves(Figure *Board[]){
     std::cout << "possible_moves z Pawn (start)" << std::endl;
+    //std::cout << "Pawn: curPos.x = " << Pawn::curPos.x << ", y = " << Pawn::curPos.y << std::endl;
+    //std::cout << "Figure: curPos.x = " << Figure::curPos.x << ", y = " << Figure::curPos.y << std::endl;
     vector <Pos> PossMoves;
     Pos test_Pos;
-
+    //std::cout << "przed Board[100]\n";
     Board[100] = Board[curPos.x*8+curPos.y];
     Board[curPos.x*8+curPos.y] = NULL;
+    std::cout << "po Board[] = NULL";
     King *king = dynamic_cast<King *> (Board[64+color*16]);
 
     // 1 Do przodu:
@@ -152,7 +155,7 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
                     if(Board[103]->no==PAWN)
                         if(Board[103] == Board[99]){
                             Board[101] = Board[102];
-                            Board[101]2 = Board[103];
+                            Board[101] = Board[103];
                             Board[102] = Board[100];
                             Board[103] = NULL;
 
@@ -160,7 +163,7 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
                                 PossMoves.push_back(test_Pos);
 
                             Board[102] = Board[101];
-                            Board[103] = Board[101]2;
+                            Board[103] = Board[101];
             }
         }
 
@@ -174,7 +177,7 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
                     if(Board[103]->no==PAWN)
                         if(Board[103] == Board[99]){
                             Board[101] = Board[102];
-                            Board[101]2 = Board[103];
+                            Board[101] = Board[103];
                             Board[102] = Board[100];
                             Board[103] = NULL;
 
@@ -182,7 +185,7 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
                                 PossMoves.push_back(test_Pos);
 
                             Board[102] = Board[101];
-                            Board[103] = Board[101]2;
+                            Board[103] = Board[101];
             }
         }
 

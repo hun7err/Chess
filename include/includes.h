@@ -16,6 +16,7 @@
     #define list std::list
     #define stack std::stack
     #define pair std::pair
+    #define string std::string
 
     /// Figures types (no)
     #define KING 0
