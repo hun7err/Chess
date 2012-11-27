@@ -34,7 +34,7 @@ int Figure::move(Pos newPos) {
     } else return false;
 }
 
-vector <Pos> Figure::possible_moves() {
+vector <Pos> Figure::possible_moves(Figure * Board[]) {
     vector<Pos> ret;
     ret.resize(1);
     ret[0].x = 0;
