@@ -54,7 +54,7 @@
 #ifndef FIGURES_H
     #define FIGURES_H
 
-    class Pawn : private Figure{
+    class Pawn : public Figure{
         public:
             vector <Pos> possible_moves(Figure * Board[]);
     Pawn(Pos pos);

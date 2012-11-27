@@ -110,6 +110,9 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
         Figure *f = Game::chess->Board[x*8+y];
         if(f != NULL) {
             this->toggleStyle();
+            std::cout << "Adres curPos: " << &((*f).curPos) << std::endl;
+            Pawn* p = dynamic_cast<Pawn*>(f);
+            std::cout << "(Pawn) curPos addr: " << &((*p).curPos) << std::endl;
             // wboard[j][i]->setToggleStyle(QString("background-color: "+wboard[j][i]->getColor().name()+"; border: 3px solid #FF0090"));
             std::cout << "wywoluje Game::chess->poss_moves([" << f->curPos.x << "," << f->curPos.y << "])" << std::endl;
             vector<Pos> positions = Game::chess->poss_moves(f->curPos);
