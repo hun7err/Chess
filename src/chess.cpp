@@ -107,7 +107,7 @@ int Chess::move(Pos oldPos, Pos newPos){
     rec.Other_figure_killed = false;
     rec.promoted = false;
     rec.Other_F_ind = -1;
-
+    Board[99]=Board[newPos.x*8+newPos.y];
     Figure *tmp = Board[oldPos.x*8+oldPos.y];
     rec.Position_before = tmp->curPos;
 

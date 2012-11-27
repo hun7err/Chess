@@ -8,6 +8,7 @@
             bool playing;
             Figure Set[32];
             vector <Pos> Poss_Moves;
+            vector <string> moves[2];
             stack <Figure*> History;
             bool curr_color;
             Figure * Board[100]; // ind 0-63 <- board

@@ -75,19 +75,25 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
     King *king = dynamic_cast<King *> (Board[64+color*16]);
 
     // 1 Do przodu:
+    std::cout << "line78 z Pawn (start)" << std::endl;
     test_Pos = NPos(curPos.x,curPos.y+color*(-2)+1);
+    std::cout << "line80 z Pawn (start)" << std::endl;
     if(checkBoundaries(test_Pos)==true){
+    std::cout << "line82 z Pawn (start)" << std::endl;
         tested_Pos = Board[curPos.x*8+curPos.y+color*(-2)+1];
+    std::cout << "line84 z Pawn (start)" << std::endl;
         if(tested_Pos==NULL){
             tested_Pos = currFig;
-
-            if(king->not_in_danger(Board,color)==true)
+    std::cout << "line87 z Pawn (start)" << std::endl;
+            if(king->not_in_danger(Board,color)==true){
                  PossMoves.push_back(test_Pos);
-
+    std::cout << "line90 z Pawn (start)" << std::endl;
+            }
             tested_Pos = NULL;
 
         }
     }
+    std::cout << "line96 z Pawn (start)" << std::endl;
     // 2 Do przodu:
     if(fig_hist.empty()){
         test_Pos = NPos(curPos.x,curPos.y+color*(-4)+2);
