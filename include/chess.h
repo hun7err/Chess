@@ -4,10 +4,12 @@
     #define CHESS_H
 
     class Chess{
+        private:
+            int moveInd;
+            Figure* Set[32];
+            string AddToHistory( Hist_rec rec ); // creates a data of just made move
         public:
             bool playing;
-            Figure* Set[32];
-            vector <Pos> Poss_Moves;
             vector <string> moves[2];
             stack <Figure*> History;
             bool curr_color;

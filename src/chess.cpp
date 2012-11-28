@@ -57,6 +57,7 @@ bool Chess::new_game(){
         History.pop();
     curr_color = false;
     playing = true;
+    moveInd = 0;
 
     return true;
 }
@@ -124,14 +125,21 @@ int Chess::move(Pos oldPos, Pos newPos){
         rec.promoted = true;
     }
     if(!tmp->move(newPos)) return 0;
+
     Board[newPos.x*8+newPos.y] = tmp;
     Board[oldPos.x*8+oldPos.y] = NULL;
     rec.Position_after = tmp->curPos;
     tmp->fig_hist.push(rec);
     History.push(tmp);
 
-    if(curr_color) curr_color = false;
+    moves[(curr_color)?1:0][moveInd] = AddToHistory(rec);
+
+    if(curr_color){
+        curr_color = false;
+        moveInd++;
+    }
     else curr_color = true;
+
 
     if(rec.promoted) return 2;
     else return 1;
@@ -166,7 +174,11 @@ bool Chess::undo(){
     }
 
     if(curr_color) curr_color = false;
-    else curr_color = true;
+    else{
+        curr_color = true;
+        moveInd--;
+    }
+    moves[(curr_color)?1:0][moveInd] = "";
 
     return true;
 
@@ -176,4 +188,20 @@ bool Chess::changeType(Pos curPos, int newType){
     return Board[curPos.x*8+curPos.y]->changeType(newType);
 }
 
+string AddToHistory( Hist_rec rec ){
+    if(Other_figure_moved)
+        return (rec.Position_after.x == 2) ? "0-0-0" :"0-0"
+
+    string data = "a0 a0";
+    data[0] += rec.Position_before.x;
+    data[1] += rec.Position_before.y;
+    data[2] = (rec.Other_figure_killed) ? ':' : '-';
+    data[3] += rec.Position_after.x;
+    data[4] += rec.Position_after.y;
+    if(rec.promoted)
+        data = data + "K RBNQ" [Board[rec.Position_after.x*8+rec.Position_after.y]->no];
+    else if(Board[rec.Position_after.x*8+rec.Position_after.y]!=PAWN)
+        data = "K RBNQ" [Board[rec.Position_after.x*8+rec.Position_after.y]->no] + data;
+    return data;
+}
 
