@@ -18,34 +18,35 @@ bool Chess::new_game(){
     for(int i = 0; i<32; i++){
         if(Kind[i/16]==KING){
             King *king = new King();
-            Set[i] = dynamic_cast<Figure *> (king);
+            Set[i] = king;
         }
         else if(Kind[i/16]==QUEEN){
             Queen *queen = new Queen();
-            Set[i] = dynamic_cast<Figure *> (queen);
+            Set[i] = queen;
         }
         else if(Kind[i/16]==KNIGHT){
             Knight *knight = new Knight();
-            Set[i] = dynamic_cast<Figure *> (knight);
+            Set[i] = knight;
         }
         else if(Kind[i/16]==BISHOP){
             Bishop *bishop = new Bishop();
-            Set[i] = dynamic_cast<Figure *> (bishop);
+            Set[i] = bishop;
         }
         else if(Kind[i/16]==ROOK){
             Rook *rook = new Rook();
-            Set[i] = dynamic_cast<Figure *> (rook);
+            Set[i] = rook;
         }
         else{
             Pawn *pawn = new Pawn();
-            Set[i] = dynamic_cast<Figure *> (pawn);
+            Set[i] = pawn;
         }
         Board[i+64] = Set[i];
         Set[i]->index = i;
         Set[i]->color = i/16;
         Set[i]->no = Kind[i%16];
-        Set[i]->curPos.x = pos_x[i%8];
-        Set[i]->curPos.y = pos_y[i/8];
+        //Set[i]->curPos.x = pos_x[i%8];
+        //Set[i]->curPos.y = pos_y[i/8];
+        Set[i]->setPos(pos_x[i%8], pos_y[i/8]);
         // a small improvement of the inprovement, no need of other if()s - there was a small bug here overwriting 0. and 7. line of board
         Set[i]->val = fval[i%16];
         Set[i]->alive = true;
@@ -79,8 +80,10 @@ vector <Pos> Chess::figures_to_move(){
 }
 
 vector <Pos> Chess::poss_moves(Pos figPos){
-    if(Board[figPos.x*8+figPos.y]!=NULL)
+    if(Board[figPos.x*8+figPos.y] != NULL) {
+        std::cout << "Wywoluje odpowiednie possible_moves" << std::endl;
         return Board[figPos.x*8+figPos.y]->possible_moves(Board);
+    }
     vector<Pos> nic;
     return nic;
 }
@@ -188,9 +191,9 @@ bool Chess::changeType(Pos curPos, int newType){
     return Board[curPos.x*8+curPos.y]->changeType(newType);
 }
 
-string AddToHistory( Hist_rec rec ){
-    if(Other_figure_moved)
-        return (rec.Position_after.x == 2) ? "0-0-0" :"0-0"
+string Chess::AddToHistory( Hist_rec rec ){
+    if(rec.Other_figure_moved)
+        return (rec.Position_after.x == 2) ? "0-0-0" :"0-0";
 
     string data = "a0 a0";
     data[0] += rec.Position_before.x;
@@ -200,7 +203,7 @@ string AddToHistory( Hist_rec rec ){
     data[4] += rec.Position_after.y;
     if(rec.promoted)
         data = data + "K RBNQ" [Board[rec.Position_after.x*8+rec.Position_after.y]->no];
-    else if(Board[rec.Position_after.x*8+rec.Position_after.y]!=PAWN)
+    else if(Board[rec.Position_after.x*8+rec.Position_after.y]->no != PAWN)
         data = "K RBNQ" [Board[rec.Position_after.x*8+rec.Position_after.y]->no] + data;
     return data;
 }

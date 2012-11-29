@@ -41,6 +41,7 @@
 
             virtual vector <Pos> possible_moves(Figure * Board[]);
             bool checkMove(Pos newPos);
+            virtual void setPos(int x, int y);
             bool checkBoundaries(Pos newPos);
             int move(Pos newPos);
             bool changeType(int newType);
@@ -56,6 +57,8 @@
 
     class Pawn : public Figure{
         public:
+            //Pos curPos;
+            //void setPos(int x, int y);
             vector <Pos> possible_moves(Figure * Board[]);
     Pawn();
     ~Pawn();
@@ -63,6 +66,7 @@
 
     class Queen : public Figure{
         public:
+            //void setPos(int x, int y);
             vector <Pos> possible_moves(Figure * Board[]);
     Queen();
     ~Queen();
@@ -70,6 +74,7 @@
 
     class Rook : public Figure{
         public:
+            //void setPos(int x, int y);
             vector <Pos> possible_moves(Figure * Board[]);
     Rook();
     ~Rook();
@@ -77,6 +82,7 @@
 
     class Bishop : public Figure{
         public:
+            //void setPos(int x, int y);
             vector <Pos> possible_moves(Figure * Board[]);
     Bishop();
     ~Bishop();
@@ -84,6 +90,7 @@
 
     class Knight : public Figure{
         public:
+            //void setPos(int x, int y);
             vector <Pos> possible_moves(Figure * Board[]);
     Knight();
     ~Knight();
@@ -91,6 +98,7 @@
 
     class King : public Figure{
         public:
+            //void setPos(int x, int y);
             vector <Pos> possible_moves(Figure * Board[]);
             bool not_in_danger( Figure * Board[], bool color);
     King();

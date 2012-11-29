@@ -34,11 +34,14 @@ int Figure::move(Pos newPos) {
     } else return false;
 }
 
+void Figure::setPos(int x, int y) {
+    this->curPos.x = x;
+    this->curPos.y = y;
+}
+
 vector <Pos> Figure::possible_moves(Figure * Board[]) {
+    std::cout << "possible_moves z Figure" << std::endl;
     vector<Pos> ret;
-    ret.resize(1);
-    ret[0].x = 0;
-    ret[0].y = 0;
     return ret;
 }
 
