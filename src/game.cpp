@@ -122,8 +122,8 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
             for(unsigned int i = 0; i < positions.size(); i++) {
                 Pos p = positions[i];
                 std::cout << "Possible move: x = " << p.x << ", y = " << p.y << std::endl;
-                //Game::getElem(p.y, p.x)->setToggleStyle("background-color: yellow");
-                //Game::getElem(p.y, p.x)->toggleStyle();
+                Game::getElem(p.y, p.x)->setToggleStyle("background-color: yellow");
+                Game::getElem(p.y, p.x)->toggleStyle();
             }
             setClicked(true);
         }
