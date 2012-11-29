@@ -16,23 +16,23 @@ bool Chess::new_game(){
         Board[i] = NULL;
     }
     for(int i = 0; i<32; i++){
-        if(Kind[i/16]==KING){
+        if(Kind[i/2]==KING){
             King *king = new King();
             Set[i] = king;
         }
-        else if(Kind[i/16]==QUEEN){
+        else if(Kind[i/2]==QUEEN){
             Queen *queen = new Queen();
             Set[i] = queen;
         }
-        else if(Kind[i/16]==KNIGHT){
+        else if(Kind[i/2]==KNIGHT){
             Knight *knight = new Knight();
             Set[i] = knight;
         }
-        else if(Kind[i/16]==BISHOP){
+        else if(Kind[i/2]==BISHOP){
             Bishop *bishop = new Bishop();
             Set[i] = bishop;
         }
-        else if(Kind[i/16]==ROOK){
+        else if(Kind[i/2]==ROOK){
             Rook *rook = new Rook();
             Set[i] = rook;
         }
