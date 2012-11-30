@@ -68,13 +68,13 @@ vector <Pos> Chess::figures_to_move(){
                  check;
 
     for(int i=0; i<16; i++){
-        if(!Set[i]->alive)
+        if(!Set[i+curr_color*16]->alive)
             continue;
 
-        check = Set[i]->possible_moves(Board);
+        check = Set[i+curr_color*16]->possible_moves(Board);
 
         if(!check.empty())
-            ret.push_back(Set[i]->curPos);
+            ret.push_back(Set[i+curr_color*16]->curPos);
     }
     return ret;
 }
