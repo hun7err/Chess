@@ -20,7 +20,7 @@ bool Chess::new_game(){
             King *king = new King();
             Set[i] = king;
         }
-        else if(Kind[i%16==QUEEN){
+        else if(Kind[i%16]==QUEEN){
             Queen *queen = new Queen();
             Set[i] = queen;
         }
