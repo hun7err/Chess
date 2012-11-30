@@ -146,42 +146,62 @@ QPoint Game::getLastPos() {
 
 void BoardWidget::mousePressEvent(QMouseEvent *) {
     if(!Game::playing) {
-    Game::getWindow()->playerChange(QString::fromUtf8(Game::chess->curr_color ? "Czarny" : "Biały"));
-    if(Game::getLastPos().x() != -1 && Game::getLastPos().y() != -1)
-            Game::getElem(Game::getLastPos().y(), Game::getLastPos().x())->toggleStyle();
-    if(!isClicked()) {
         Figure *f = Game::chess->Board[x*8+y];
-        if(f != NULL) {
-            this->toggleStyle();
-            //std::cout << "Adres curPos: " << &(f->curPos) << std::endl;
-            //std::cout << "(Figure) curPos: x:" << f->curPos.x << ", y:" << f->curPos.y << std::endl;
-            //Pawn* p = dynamic_cast<Pawn*>(f);
-            //p->setPos(0, 0);
-            //std::cout << "(Pawn) curPos addr: " << &(p->curPos) << std::endl;
-            //std::cout << "(Pawn) curPos: x:" << p->curPos.x << ", y:" << p->curPos.y << std::endl;
-            // wboard[j][i]->setToggleStyle(QString("background-color: "+wboard[j][i]->getColor().name()+"; border: 3px solid #FF0090"));
-            //std::cout << "wywoluje Game::chess->poss_moves([" << f->curPos.x << "," << f->curPos.y << "])" << std::endl;
-            QColor c, c_add(0,194,255);
-            vector<Pos> positions = Game::chess->poss_moves(f->curPos);
-            for(unsigned int i = 0; i < positions.size(); i++) {
-                Pos p = positions[i];
-                //std::cout << "Possible move: x = " << p.x << ", y = " << p.y << std::endl;
-                QColor field_c = Game::getElem(p.y, p.x)->getColor();
-                c = Colors::sumColors(c_add, field_c);
-                QColor border = Colors::sumColors(QColor(20,20,20),c);
-                //).name()
-                Game::getElem(p.y, p.x)->setToggleStyle("border: 2px solid "+border.name()+"; background-color: "+c.name());
-                Game::getElem(p.y, p.x)->toggleStyle();
-            }
-            Game::setLastPos(x, y);
-            setClicked(true);
-        }
+        if(f != NULL && f->color == Game::chess->curr_color) {
+            if(!isClicked()) { // if field hasn't been clicked yet
+                Game::getWindow()->playerChange(QString::fromUtf8(Game::chess->curr_color ? "Czarny" : "Biały"));
+                int _x = Game::getLastPos().x(), _y = Game::getLastPos().y();
+                bool moved = false;
+                if(_x != -1 && _y != -1) { // if last position hasn't been set yet or has been reseted
+                    // rusz się jeśli możesz, jeśli nie to nie rób nic
+                    //Pos p;
+                   // p.x = _x;
+                    //p.y = _y;
+                    Game::setLastPos(x, y);
 
-    }
-    }
-    //BoardWidget* w = Game::getElem(0,0);
-    //w->toggleColor();
-    //this->setStyleSheet(QString("background-color: red"));
+                    if(Game::chess->move(f->curPos, NPos(_y,_x)) == true) {
+                        std::cout << "Ruch" << std::endl;
+                        Game::getElem(_x, _y)->repaint();
+                        moved = true;
+                    } else {
+                    }
+                    Game::getElem(_y, _x)->toggleStyle();
+                    Game::getElem(_y, _x)->setClicked(false);
+
+                    vector<Pos> positions = Game::chess->poss_moves(NPos(Game::getLastPos().x(), Game::getLastPos().y()));
+                    for(unsigned int i = 0; i < positions.size(); i++) {
+                        Pos p2 = positions[i];
+                        Game::getElem(p2.y, p2.x)->toggleStyle();
+                    }
+                    Game::setLastPos(-1, -1); // reset the last pos.
+                }
+
+                    if(!moved) this->toggleStyle();
+                    //std::cout << "Adres curPos: " << &(f->curPos) << std::endl;
+                    //std::cout << "(Figure) curPos: x:" << f->curPos.x << ", y:" << f->curPos.y << std::endl;
+                    //Pawn* p = dynamic_cast<Pawn*>(f);
+                    //p->setPos(0, 0);
+                    //std::cout << "(Pawn) curPos addr: " << &(p->curPos) << std::endl;
+                    //std::cout << "(Pawn) curPos: x:" << p->curPos.x << ", y:" << p->curPos.y << std::endl;
+                    // wboard[j][i]->setToggleStyle(QString("background-color: "+wboard[j][i]->getColor().name()+"; border: 3px solid #FF0090"));
+                    //std::cout << "wywoluje Game::chess->poss_moves([" << f->curPos.x << "," << f->curPos.y << "])" << std::endl;
+                    QColor c, c_add(0,194,255);
+                    vector<Pos> positions = Game::chess->poss_moves(f->curPos);
+                    for(unsigned int i = 0; i < positions.size(); i++) {
+                        Pos p = positions[i];
+                        //std::cout << "Possible move: x = " << p.x << ", y = " << p.y << std::endl;
+                        QColor field_c = Game::getElem(p.y, p.x)->getColor();
+                        c = Colors::sumColors(c_add, field_c);
+                        QColor border = Colors::sumColors(QColor(20,20,20),c);
+                        //).name()
+                        Game::getElem(p.y, p.x)->setToggleStyle("border: 2px solid "+border.name()+"; background-color: "+c.name());
+                        Game::getElem(p.y, p.x)->toggleStyle();
+                    }
+                    Game::setLastPos(x, y);
+                setClicked(true);
+            } // if (!isClicked())
+        } // if(Game::chess->Board[x*8+y]->color == Game::chess->curr_color)
+    } // if(!Game::playing)
 }
 
 void BoardWidget::setColor(QColor col) {

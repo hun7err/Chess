@@ -8,6 +8,8 @@
         short int y;
     } Pos;
 
+Pos NPos( short int x, short int y);
+
 #endif // DEFS_H
 
 

@@ -27,6 +27,7 @@ bool Figure::checkBoundaries(Pos newPos) {
 }
 
 int Figure::move(Pos newPos) {
+    std::cout << "Move" << std::endl;
     if(checkMove(newPos)) {
         this->curPos.x = newPos.x;
         this->curPos.y = newPos.y;
