@@ -65,35 +65,25 @@ Pawn::Pawn(){}
 Pawn::~Pawn(){}
 
 vector<Pos> Pawn::possible_moves(Figure *Board[]){
-    std::cout << "possible_moves z Pawn (start)" << std::endl;
     vector <Pos> PossMoves;
     Pos test_Pos;
     Figure *currFig, *help, *help2, *tested_Pos, *kill_Fig;
-    std::cout << "przypisanie" << std::endl;
     currFig = Board[curPos.x*8+curPos.y];
-    std::cout << "przypisanie" << std::endl;
     Board[curPos.x*8+curPos.y] = NULL;
     King *king = dynamic_cast<King *> (Board[64+color*16]);
     // 1 Do przodu:
-    std::cout << "line78 z Pawn (start)" << std::endl;
     test_Pos = NPos(curPos.x,curPos.y+color*(-2)+1);
-    std::cout << "line80 z Pawn (start)" << std::endl;
     if(checkBoundaries(test_Pos)==true){
-    std::cout << "line82 z Pawn (start)" << std::endl;
         tested_Pos = Board[curPos.x*8+curPos.y+color*(-2)+1];
-    std::cout << "line84 z Pawn (start)" << std::endl;
         if(tested_Pos==NULL){
             tested_Pos = currFig;
-    std::cout << "line87 z Pawn (start)" << std::endl;
             if(king->not_in_danger(Board,color)==true){
                  PossMoves.push_back(test_Pos);
-    std::cout << "line90 z Pawn (start)" << std::endl;
             }
             tested_Pos = NULL;
 
         }
     }
-    std::cout << "line96 z Pawn (start)" << std::endl;
     // 2 Do przodu:
     if(fig_hist.empty()){
         test_Pos = NPos(curPos.x,curPos.y+color*(-4)+2);
@@ -188,7 +178,6 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
 
 
     Board[curPos.x*8+curPos.y] = currFig;
-    std::cout << "possible_moves z Pawn (return)" << std::endl;
     return PossMoves;
 }
 
@@ -429,7 +418,6 @@ vector<Pos> King::possible_moves(Figure *Board[]){
             curPos = test_Pos;
             if(king->not_in_danger(Board,color)==true)
                 PossMoves.push_back(test_Pos);
-
             tested_Pos = NULL;
         }
         else if(tested_Pos->color!=color){
@@ -438,41 +426,40 @@ vector<Pos> King::possible_moves(Figure *Board[]){
             curPos = test_Pos;
             if(king->not_in_danger(Board,color)==true)
                 PossMoves.push_back(test_Pos);
-
             tested_Pos = help;
         }
     }
 
     if(if_not_danger&&fig_hist.empty()){ //ROSZADY
-        tested_Pos = Board[(prevPos.x)*8+0];
+       tested_Pos = Board[0*8+prevPos.y];
         if(tested_Pos!=NULL)
             if(tested_Pos->fig_hist.empty())
-                if(Board[(prevPos.x)*8+1]==NULL&&Board[(prevPos.x)*8+2]==NULL&&Board[(prevPos.x)*8+3]==NULL){
-                    swap(Board[(prevPos.x)*8+0],Board[(prevPos.x)*8+3]);
-                    swap(Board[(prevPos.x)*8+4],Board[(prevPos.x)*8+2]);
+                if(Board[1*8+prevPos.y]==NULL&&Board[2*8+prevPos.y]==NULL&&Board[3*8+prevPos.y]==NULL){
+                    swap(Board[0*8+prevPos.y],Board[3*8+prevPos.y]);
+                    swap(Board[4*8+prevPos.y],Board[2*8+prevPos.y]);
                     curPos.x = 2;
 
                     if(king->not_in_danger(Board,color)==true)
                         PossMoves.push_back(curPos);
 
-                    swap(Board[(prevPos.x)*8+0],Board[(prevPos.x)*8+3]);
-                    swap(Board[(prevPos.x)*8+4],Board[(prevPos.x)*8+2]);
+                    swap(Board[0*8+prevPos.y],Board[3*8+prevPos.y]);
+                    swap(Board[4*8+prevPos.y],Board[2*8+prevPos.y]);
                     curPos.x = 4;
 
                 }
-        tested_Pos = Board[(prevPos.x)*8+7];
+        tested_Pos = Board[7*8+(prevPos.y)];
         if(tested_Pos!=NULL)
             if(tested_Pos->fig_hist.empty())
-                if(Board[(prevPos.x)*8+5]==NULL&&Board[(prevPos.x)*8+6]==NULL){
-                    swap(Board[(prevPos.x)*8+7],Board[(prevPos.x)*8+5]);
-                    swap(Board[(prevPos.x)*8+4],Board[(prevPos.x)*8+6]);
+                if(Board[5*8+prevPos.y]==NULL&&Board[6*8+prevPos.y]==NULL){
+                    swap(Board[7*8+prevPos.y],Board[5*8+prevPos.y]);
+                    swap(Board[4*8+prevPos.y],Board[6*8+prevPos.y]);
                     curPos.x = 6;
 
                     if(king->not_in_danger(Board,color)==true)
                         PossMoves.push_back(curPos);
 
-                    swap(Board[(prevPos.x)*8+7],Board[(prevPos.x)*8+5]);
-                    swap(Board[(prevPos.x)*8+4],Board[(prevPos.x)*8+6]);
+                    swap(Board[7*8+prevPos.y],Board[5*8+prevPos.y]);
+                    swap(Board[4*8+prevPos.y],Board[6*8+prevPos.y]);
                     curPos.x = 4;
                 }
     }

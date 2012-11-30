@@ -11,7 +11,7 @@
         public:
             bool playing;
             vector <Pos> Poss_Moves;
-            vector <string> moves[2];
+            list <string> moves[2];
             stack <Figure*> History;
             bool curr_color;
             Figure * Board[100]; // ind 0-63 <- board
