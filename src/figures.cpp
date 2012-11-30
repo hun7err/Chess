@@ -134,7 +134,7 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
     // bicia w przelocie
     test_Pos = NPos(curPos.x+1,curPos.y+color*(-2)+1);
     if(checkBoundaries(test_Pos)==true)
-        if(curPos.x-color == 4){
+        if(curPos.y-color == 4){
             kill_Fig = Board[(curPos.x+1)*8+curPos.y];
             tested_Pos = Board[(curPos.x+1)*8+curPos.y+color*(-2)+1];
             if(tested_Pos==NULL)
@@ -156,7 +156,7 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
 
     test_Pos = NPos(curPos.x-1,curPos.y+color*(-2)+1);
     if(checkBoundaries(test_Pos)==true)
-        if(curPos.x-color == 4){
+        if(curPos.y-color == 4){
             kill_Fig = Board[(curPos.x-1)*8+curPos.y];
             tested_Pos = Board[(curPos.x-1)*8+curPos.y+color*(-2)+1];
             if(tested_Pos==NULL)

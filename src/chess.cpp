@@ -95,8 +95,8 @@ int Chess::move(Pos oldPos, Pos newPos){
     rec.Other_figure_killed = false;
     rec.promoted = false;
     rec.Other_F_ind = -1;
-    Board[99]=Board[newPos.x*8+newPos.y];
     Figure *tmp = Board[oldPos.x*8+oldPos.y];
+    Board[99] = tmp;
     rec.Position_before = tmp->curPos;
 
     if(Board[newPos.x*8+newPos.y]!=NULL){ // bicie
@@ -152,6 +152,7 @@ int Chess::move(Pos oldPos, Pos newPos){
 bool Chess::undo(){
     if(History.empty()) return false;
     Hist_rec rec = History.top()->fig_hist.top();
+    History.top()->fig_hist.pop();
     History.pop();
     Figure *tmp = Board[rec.Position_after.x*8+rec.Position_after.y];
     Board[rec.Position_after.x*8+rec.Position_after.y] = NULL;
@@ -177,6 +178,9 @@ bool Chess::undo(){
     if(rec.promoted){ // promocja
         tmp->no = 0;
     }
+    if(History.empty())
+        Board[99] = NULL;
+    else Board[99] = History.top();
 
     if(curr_color) curr_color = false;
     else{
@@ -186,7 +190,6 @@ bool Chess::undo(){
     moves[curr_color].pop_back();
 
     return true;
-
 }
 
 bool Chess::changeType(Pos curPos, int newType){
