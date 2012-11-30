@@ -372,7 +372,7 @@ vector<Pos> Knight::possible_moves(Figure *Board[]){
     for(int i=0;i<8;i++){
         test_Pos = NPos(curPos.x+kn_mvs[i][0],curPos.y+kn_mvs[i][1]);
         if(checkBoundaries(test_Pos)==false)
-            break;
+            continue;
 
         tested_Pos = Board[(curPos.x+kn_mvs[i][0])*8+curPos.y+kn_mvs[i][1]];
 
@@ -393,7 +393,6 @@ vector<Pos> Knight::possible_moves(Figure *Board[]){
 
             tested_Pos = help;
         }
-        else break;
     }
 
     Board[curPos.x*8+curPos.y] = currFig;
@@ -421,7 +420,7 @@ vector<Pos> King::possible_moves(Figure *Board[]){
 
         test_Pos = NPos(prevPos.x+i/3-1,prevPos.y+i%3-1);
         if(checkBoundaries(test_Pos)==false)
-            break;
+            continue;
 
         tested_Pos = Board[(prevPos.x+i/3-1)*8+prevPos.y+i%3-1];
 
@@ -442,7 +441,6 @@ vector<Pos> King::possible_moves(Figure *Board[]){
 
             tested_Pos = help;
         }
-        else break;
     }
 
     if(if_not_danger&&fig_hist.empty()){ //ROSZADY
@@ -510,7 +508,7 @@ bool King::not_in_danger( Figure *Board[], bool color){
 
     for(int z=1;z<9;z+=2){ // Q+R
         for(int i=1;i<7;i++){
-            test_Pos = NPos(cP.x+i*(z/3-1),cP.y+i*(z%4-1));
+            test_Pos = NPos(cP.x+i*(z/3-1),cP.y+i*(z%3-1));
             if(checkBoundaries(test_Pos)==true) {
                 if(Board[(cP.x+i*(z/3-1))*8+cP.y+i*(z%3-1)]!=NULL) {
                     if(Board[(cP.x+i*(z/3-1))*8+cP.y+i*(z%3-1)]->color!=color&&
@@ -528,7 +526,7 @@ bool King::not_in_danger( Figure *Board[], bool color){
         if(z==4)
             continue;
         for(int i=1;i<7;i++){
-            test_Pos = NPos(cP.x+i*(z/3-1),cP.y+i*(z%4-1));
+            test_Pos = NPos(cP.x+i*(z/3-1),cP.y+i*(z%3-1));
             if(checkBoundaries(test_Pos)==true) {
                 if(Board[(cP.x+i*(z/3-1))*8+cP.y+i*(z%3-1)]!=NULL) {
                     if(Board[(cP.x+i*(z/3-1))*8+cP.y+i*(z%3-1)]->color!=color&&

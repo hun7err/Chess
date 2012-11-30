@@ -16,23 +16,23 @@ bool Chess::new_game(){
         Board[i] = NULL;
     }
     for(int i = 0; i<32; i++){
-        if(Kind[i/2]==KING){
+        if(Kind[i%16]==KING){
             King *king = new King();
             Set[i] = king;
         }
-        else if(Kind[i/2]==QUEEN){
+        else if(Kind[i%16==QUEEN){
             Queen *queen = new Queen();
             Set[i] = queen;
         }
-        else if(Kind[i/2]==KNIGHT){
+        else if(Kind[i%16]==KNIGHT){
             Knight *knight = new Knight();
             Set[i] = knight;
         }
-        else if(Kind[i/2]==BISHOP){
+        else if(Kind[i%16]==BISHOP){
             Bishop *bishop = new Bishop();
             Set[i] = bishop;
         }
-        else if(Kind[i/2]==ROOK){
+        else if(Kind[i%16]==ROOK){
             Rook *rook = new Rook();
             Set[i] = rook;
         }
@@ -80,10 +80,11 @@ vector <Pos> Chess::figures_to_move(){
 }
 
 vector <Pos> Chess::poss_moves(Pos figPos){
-    if(Board[figPos.x*8+figPos.y] != NULL) {
-        std::cout << "Wywoluje odpowiednie possible_moves" << std::endl;
-        return Board[figPos.x*8+figPos.y]->possible_moves(Board);
-    }
+    if(Board[figPos.x*8+figPos.y] != NULL)
+        if(Board[figPos.x*8+figPos.y]->color == curr_color) {
+            std::cout << "Wywoluje odpowiednie possible_moves" << std::endl;
+            return Board[figPos.x*8+figPos.y]->possible_moves(Board);
+        }
     vector<Pos> nic;
     return nic;
 }
