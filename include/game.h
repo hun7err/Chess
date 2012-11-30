@@ -5,6 +5,7 @@
 #include <QPainter>
 using namespace std;
 #include "chess.h"
+#include "mainwindow.h"
 
 class BoardWidget : public QWidget {
     private:
@@ -27,20 +28,30 @@ class BoardWidget : public QWidget {
     ~BoardWidget();
 };
 
+class Colors {
+    public:
+        static QColor sumColors(const QColor &c1, const QColor &c2);
+};
+
 class Game {
     private:
         static BoardWidget* wboard[8][8];  // widget board
         QWidget **parent;
         int width, height;
+        static MainWindow *window;
+        static QPoint lastPos;
     public:
         static bool playing;
         static Chess* chess;
-        static QPoint lastPos;
-        //BoardWidget *getElem(int x, int y);
-        static BoardWidget *getElem(int x, int y);
+        static void setLastPos(int x, int y);
+        static QPoint getLastPos();
+        static BoardWidget* getElem(int x, int y);
         void setBoard(QColor even, QColor odd);
         void setWBoardParent(QWidget ** par);
-    Game(int w = 61, int h = 61);
+        void setWindow(MainWindow *win);
+        static void newGame();
+        static MainWindow* getWindow();
+    Game(MainWindow *win, int w = 61, int h = 61);
     ~Game();
 };
 

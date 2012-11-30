@@ -82,7 +82,7 @@ vector <Pos> Chess::figures_to_move(){
 vector <Pos> Chess::poss_moves(Pos figPos){
     if(Board[figPos.x*8+figPos.y] != NULL)
         if(Board[figPos.x*8+figPos.y]->color == curr_color) {
-            std::cout << "Wywoluje odpowiednie possible_moves" << std::endl;
+            //std::cout << "Wywoluje odpowiednie possible_moves" << std::endl;
             return Board[figPos.x*8+figPos.y]->possible_moves(Board);
         }
     vector<Pos> nic;
