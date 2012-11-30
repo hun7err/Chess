@@ -136,7 +136,7 @@ int Chess::move(Pos oldPos, Pos newPos){
     tmp->fig_hist.push(rec);
     History.push(tmp);
 
-    moves[(curr_color)?1:0][moveInd] = AddToHistory(rec);
+    moves[curr_color].push_back(AddToHistory(rec));
 
     if(curr_color){
         curr_color = false;
@@ -155,6 +155,7 @@ bool Chess::undo(){
     History.pop();
     Figure *tmp = Board[rec.Position_after.x*8+rec.Position_after.y];
     Board[rec.Position_after.x*8+rec.Position_after.y] = NULL;
+    Board[rec.Position_before.x*8+rec.Position_before.y] = tmp;
     tmp->move(rec.Position_before);
 
     if(rec.Other_figure_killed){ // bicie
@@ -162,7 +163,7 @@ bool Chess::undo(){
         Board[Set[rec.Other_F_ind]->curPos.x*8+Set[rec.Other_F_ind]->curPos.y] = Set[rec.Other_F_ind];
     }
     else if(rec.Other_figure_moved){ // roszady
-        if(rec.Position_before.x==2){
+        if(rec.Position_after.x==2){
             Set[rec.Other_F_ind]->curPos.x = 0;
             Board[3*8+rec.Position_before.y] = NULL;
             Board[0*8+rec.Position_before.y] = Set[rec.Other_F_ind];
@@ -182,7 +183,7 @@ bool Chess::undo(){
         curr_color = true;
         moveInd--;
     }
-    moves[(curr_color)?1:0][moveInd] = "";
+    moves[curr_color].pop_back();
 
     return true;
 
