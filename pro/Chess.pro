@@ -29,13 +29,13 @@ FORMS    += ../ui/mainwindow.ui
 RESOURCES += ../res/resources.qrc
 
 CONFIG(debug, debug|release) {
-        TARGET = ../Chess/bin/debug/Chess
-        OBJECTS_DIR = ../Chess/obj/debug
-        MOC_DIR = ../Chess/moc/debug
+        TARGET = ../bin/debug/Chess
+        OBJECTS_DIR = ../obj/debug
+        MOC_DIR = ../moc/debug
 }
 
 CONFIG(release, debug|release) {
-        TARGET = ../Chess/bin/release/Chess
-        OBJECTS_DIR = ../Chess/obj/release
-        MOC_DIR = ../Chess/moc/release
+        TARGET = ../bin/release/Chess
+        OBJECTS_DIR = ../obj/release
+        MOC_DIR = ../moc/release
 }

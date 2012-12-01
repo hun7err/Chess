@@ -3,12 +3,28 @@
 #ifndef DEFS_H
     #define DEFS_H
 
-    typedef struct Position {
+    /*typedef struct Position {
         short int x;
         short int y;
-    } Pos;
+    } Pos;*/
+class Pos {
+    private:
+        int x_val;
+        int y_val;
+    public:
+        int x() const;
+        int y() const;
+        void setX(int _x);
+        void setY(int _y);
+        void set(int _x, int _y);
+        void set(const Pos& position);
+    Pos();
+    Pos(int _x, int _y);
+    Pos(const Pos& position);
+    ~Pos();
+};
 
-Pos NPos( short int x, short int y);
+//Pos NPos( short int x, short int y);
 
 #endif // DEFS_H
 
@@ -44,7 +60,7 @@ Pos NPos( short int x, short int y);
             virtual vector <Pos> possible_moves(Figure * Board[]);
             bool checkMove(Pos newPos);
             virtual void setPos(int x, int y);
-            bool checkBoundaries(Pos newPos);
+            bool checkBoundaries(const Pos& newPos);
             int move(Pos newPos);
             bool changeType(int newType);
             int getVal();
