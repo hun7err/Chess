@@ -55,6 +55,16 @@ BoardWidget::BoardWidget(QWidget *parent) : QWidget(parent) {
 BoardWidget::~BoardWidget() {
 }
 
+/*
+
+  to-do:
+  - fix moves: sometimes the program segfaults and sometimes there are additional figures (so far only knights) spawned (wtf?)
+  - fix positions: swap white and black figures (white should be at the bottom, black at the top); things needed to be changed, then:
+    1) at Board[] y to 7-y;
+    2) at possible_moves y to 7-y
+
+*/
+
 void BoardWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     QImage img;
@@ -297,7 +307,7 @@ void Game::setBoard(QColor even, QColor odd) {
         for (int j = 0; j < 8; j++) {
             wboard[j][i] = new BoardWidget(*parent);
             wboard[j][i]->setGeometry(i*width,j*height, width, height);
-            wboard[j][i]->setPos(i, j);
+            wboard[j][i]->setPos(i, j); // 7-j for good order
             if((i % 2 == 0 && j % 2 == 0) || (j % 2 == 1 && i % 2 == 1)) {
                 wboard[j][i]->setColor(even);
                 wboard[j][i]->setStyleSheet(QString("background-color: "+even.name()));
