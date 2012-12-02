@@ -177,15 +177,15 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                     if(p2.x() == x && p2.y() == y) {
                         if(Game::chess->move(p_old, p_new) != false && !positions.empty()) { // jeśli można się ruszyć
                             std::cout << "Ruch" << std::endl;
-                            Game::getElem(_y, _x)->toggleStyle(); // zmień styl pola poprzedniej figury
+                            Game::getElem(7-_y, _x)->toggleStyle(); // zmień styl pola poprzedniej figury
                             //Game::getElem(_y,_x)->setClicked(false); // nie kliknięto poprzedniego pola
-                            Game::getElem(y,x)->setClicked(false);
+                            Game::getElem(7-y,x)->setClicked(false);
                             moved = true;
                             for(unsigned int i = 0; i < positions.size(); i++) {
                                 Pos p2 = positions[i];
-                                Game::getElem(p2.y(), p2.x())->toggleStyle();
+                                Game::getElem(7-p2.y(), p2.x())->toggleStyle();
                                 //Game::getElem(p2.y(), p2.x())->repaint();
-                                Game::getElem(p2.y(),p2.x())->setClicked(false);
+                                Game::getElem(7-p2.y(),p2.x())->setClicked(false);
                             }
                             for(int i = 0; i < 8; i++)
                                 for(int j = 0; j < 8; j++)
@@ -203,18 +203,18 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
             Pos p_old(_x,_y); // pozycja wybranej wcześniej figury i obecnego pola
 
             vector<Pos> positions = Game::chess->poss_moves(p_old);
-            Game::getElem(_y,_x)->toggleStyle(); // zmień styl pola poprzedniej figury
+            Game::getElem(7-_y,_x)->toggleStyle(); // zmień styl pola poprzedniej figury
             //Game::getElem(y,x)->toggleStyle();
             setToggleStyle(QString("background-color: "+QColor(255,255,102).name()+"; border: 1px solid black"));
-            Game::getElem(_y,_x)->setClicked(false); // nie kliknięto poprzedniego pola
+            Game::getElem(7-_y,_x)->setClicked(false); // nie kliknięto poprzedniego pola
             setClicked(true);
             //Game::getElem(y,x)->setClicked(false);
             moved = true;
             for(unsigned int i = 0; i < positions.size(); i++) {
                 Pos p2(positions[i]);
-                Game::getElem(p2.y(), p2.x())->toggleStyle();
-                Game::getElem(p2.y(), p2.x())->repaint();
-                Game::getElem(p2.y(),p2.x())->setClicked(false);
+                Game::getElem(7-p2.y(), p2.x())->toggleStyle();
+                Game::getElem(7-p2.y(), p2.x())->repaint();
+                Game::getElem(7-p2.y(),p2.x())->setClicked(false);
             }
             moved = false;
         }
@@ -243,8 +243,8 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                         c = Colors::sumColors(c_add, field_c);
                         QColor border = Colors::sumColors(QColor(20,20,20),c);
                         //).name()
-                        Game::getElem(p.y(), p.x())->setToggleStyle("border: 2px solid "+border.name()+"; background-color: "+c.name());
-                        Game::getElem(p.y(), p.x())->toggleStyle();
+                        Game::getElem(7-p.y(), p.x())->setToggleStyle("border: 2px solid "+border.name()+"; background-color: "+c.name());
+                        Game::getElem(7-p.y(), p.x())->toggleStyle();
                     }
                     Game::setLastPos(x, y);
                 setClicked(true);
@@ -307,7 +307,7 @@ void Game::setBoard(QColor even, QColor odd) {
         for (int j = 0; j < 8; j++) {
             wboard[j][i] = new BoardWidget(*parent);
             wboard[j][i]->setGeometry(i*width,j*height, width, height);
-            wboard[j][i]->setPos(i, j); // 7-j for good order
+            wboard[j][i]->setPos(i, 7-j); // 7-j for good order
             if((i % 2 == 0 && j % 2 == 0) || (j % 2 == 1 && i % 2 == 1)) {
                 wboard[j][i]->setColor(even);
                 wboard[j][i]->setStyleSheet(QString("background-color: "+even.name()));
