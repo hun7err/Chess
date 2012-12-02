@@ -23,6 +23,8 @@ private slots:
 
     void on_actionNowa_gra_triggered();
 
+    void on_pushButton_clicked();
+
 signals:
     void setCurPlayer(const QString&);
 

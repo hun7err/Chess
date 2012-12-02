@@ -62,3 +62,9 @@ void MainWindow::on_actionNowa_gra_triggered()
                     Game::getElem(j+c*6, i)->repaint();
     //std::cout << "Nowa gra" << std::endl;
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    ui->listWidget->addItem(QString("test"+QString::number(ui->listWidget->count()+1)));
+    //ui->listWidget->itemAt(ui->listWidget->count()-1)-
+}

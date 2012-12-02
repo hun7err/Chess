@@ -59,8 +59,8 @@ bool Chess::new_game(){
     curr_color = false;
     playing = true;
     moveInd = 0;
-    Board[4*8+1] = NULL;
-    Board[2*8+1] = NULL;
+    //Board[4*8+1] = NULL;
+    //Board[2*8+1] = NULL;
 
     return true;
 }

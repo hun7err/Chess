@@ -49,7 +49,7 @@
       </font>
      </property>
      <property name="text">
-      <string/>
+      <string>Brak</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -71,6 +71,29 @@
     <property name="flat">
      <bool>false</bool>
     </property>
+    <widget class="QListWidget" name="listWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>181</width>
+       <height>241</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>140</y>
+       <width>93</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Test</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
