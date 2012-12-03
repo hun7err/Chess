@@ -12,12 +12,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QObject::connect(this, SIGNAL(setCurPlayer(QString)), this, SLOT(setCurrentPlayer(QString)));
+    QObject::connect(this, SIGNAL(addHistItem(QString)), this, SLOT(addHistoryItem(QString)));
     QObject::connect(
         ui->listWidget->model(),
         SIGNAL(rowsInserted ( const QModelIndex &, int, int ) ),
         ui->listWidget,
         SLOT(scrollToBottom ())
-    );
+    ); // a magic trick to scroll down. Do not touch.
     boardwid = new QWidget(this);
     boardwid->setGeometry(18, 45, 8*61, 8*61);
     boardwid->setStyleSheet(QString("background-color: #000000; border: 1px solid black"));
@@ -44,6 +45,10 @@ void MainWindow::playerChange(const QString &q) {
     emit setCurPlayer(q);
 }
 
+void MainWindow::addHistory(const QString &q) {
+    emit addHistItem(q);
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -64,9 +69,8 @@ void MainWindow::on_actionNowa_gra_triggered()
     Game::newGame();
     this->setCurrentPlayer(QString::fromUtf8("Biały"));
     for(int i = 0; i < 8; i++)
-        for(int c = 0; c < 2; c++)
-            for(int j = 0; j < 2; j++)
-                    Game::getElem(j+c*6, i)->repaint();
+        for(int j = 0; j < 8; j++)
+            Game::getElem(i, j)->repaint();
     //std::cout << "Nowa gra" << std::endl;
 }
 
@@ -74,4 +78,8 @@ void MainWindow::on_pushButton_clicked()
 {
     ui->listWidget->addItem(QString("test"+QString::number(ui->listWidget->count()+1)));
     //ui->listWidget->itemAt(ui->listWidget->count()-1)-
+}
+
+void MainWindow::addHistoryItem(const QString &q) {
+    ui->listWidget->addItem(QString::number(ui->listWidget->count()+1)+". "+q);
 }

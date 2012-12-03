@@ -187,6 +187,12 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                                 //Game::getElem(p2.y(), p2.x())->repaint();
                                 Game::getElem(7-p2.y(),p2.x())->setClicked(false);
                             }
+                            std::cout << Game::chess->moves[1-Game::chess->curr_color].back() << std::endl;
+                            //list<string>::iterator it;
+                            //for(it = Game::chess->moves[1-Game::chess->curr_color].begin(); it != Game::chess->moves[1-Game::chess->curr_color].end(); it++);
+                            //std::cout << *it << std::endl;
+                            //std::cout << "curr_color: " << Game::chess->curr_color << std::endl;
+                            Game::getWindow()->addHistory(QString(Game::chess->moves[1-Game::chess->curr_color].back().c_str()));
                             for(int i = 0; i < 8; i++)
                                 for(int j = 0; j < 8; j++)
                                     Game::getElem(i,j)->repaint();

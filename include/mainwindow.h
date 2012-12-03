@@ -14,12 +14,14 @@ class MainWindow : public QMainWindow
 public:
     QWidget *boardwid;
     void playerChange(const QString &q);
+    void addHistory(const QString &q);
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
 private slots:
     void on_actionWyjd_triggered();
     void setCurrentPlayer(const QString &q);
+    void addHistoryItem(const QString &q);
 
     void on_actionNowa_gra_triggered();
 
@@ -27,6 +29,7 @@ private slots:
 
 signals:
     void setCurPlayer(const QString&);
+    void addHistItem(const QString&);
 
 private:
     Ui::MainWindow *ui;
