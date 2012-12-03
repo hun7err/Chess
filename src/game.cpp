@@ -239,7 +239,7 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                     for(unsigned int i = 0; i < positions.size(); i++) {
                         Pos p = positions[i];
                         //std::cout << "Possible move: x = " << p.x << ", y = " << p.y << std::endl;
-                        QColor field_c = Game::getElem(p.y(), p.x())->getColor();
+                        QColor field_c = Game::getElem(7-p.y(), p.x())->getColor();
                         c = Colors::sumColors(c_add, field_c);
                         QColor border = Colors::sumColors(QColor(20,20,20),c);
                         //).name()
@@ -257,6 +257,13 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
         if(f == NULL) std::cout << "[ ]";
         else std::cout << "[" << f->no << "]";
         if((i+1) % 8 == 0) std::cout << std::endl;
+    }
+    if(!Game::playing) {
+        vector<Pos> positions = Game::chess->figures_to_move();
+        for(int i = 0; i < positions.size(); i++) {
+            Pos p(positions[i]);
+            std::cout << "pos move: (" << p.x() << "," << p.y() << ")" << std::endl;
+        }
     }
     std::cout << "-----\n";
 }

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QLabel>
 #include <QObject>
+#include <QListWidgetItem>
 #include <iostream>
 #include "../include/game.h"
 
@@ -11,6 +12,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QObject::connect(this, SIGNAL(setCurPlayer(QString)), this, SLOT(setCurrentPlayer(QString)));
+    QObject::connect(
+        ui->listWidget->model(),
+        SIGNAL(rowsInserted ( const QModelIndex &, int, int ) ),
+        ui->listWidget,
+        SLOT(scrollToBottom ())
+    );
     boardwid = new QWidget(this);
     boardwid->setGeometry(18, 45, 8*61, 8*61);
     boardwid->setStyleSheet(QString("background-color: #000000; border: 1px solid black"));
