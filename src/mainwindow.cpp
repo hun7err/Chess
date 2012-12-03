@@ -57,9 +57,8 @@ void MainWindow::on_actionNowa_gra_triggered()
     Game::newGame();
     this->setCurrentPlayer(QString::fromUtf8("Biały"));
     for(int i = 0; i < 8; i++)
-        for(int c = 0; c < 2; c++)
-            for(int j = 0; j < 2; j++)
-                    Game::getElem(j+c*6, i)->repaint();
+        for(int j = 0; j < 8; j++)
+            Game::getElem(i,j)->repaint();
     //std::cout << "Nowa gra" << std::endl;
 }
 
