@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QLabel>
 #include <QObject>
+#include <QListWidgetItem>
 #include <iostream>
 #include "../include/game.h"
 
@@ -11,6 +12,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QObject::connect(this, SIGNAL(setCurPlayer(QString)), this, SLOT(setCurrentPlayer(QString)));
+    QObject::connect(this, SIGNAL(addHistItem(QString)), this, SLOT(addHistoryItem(QString)));
+    QObject::connect(
+        ui->listWidget->model(),
+        SIGNAL(rowsInserted ( const QModelIndex &, int, int ) ),
+        ui->listWidget,
+        SLOT(scrollToBottom ())
+    ); // a magic trick to scroll down. Do not touch.
     boardwid = new QWidget(this);
     boardwid->setGeometry(18, 45, 8*61, 8*61);
     boardwid->setStyleSheet(QString("background-color: #000000; border: 1px solid black"));
@@ -35,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::playerChange(const QString &q) {
     emit setCurPlayer(q);
+}
+
+void MainWindow::addHistory(const QString &q) {
+    emit addHistItem(q);
 }
 
 MainWindow::~MainWindow()
@@ -66,4 +78,8 @@ void MainWindow::on_pushButton_clicked()
 {
     ui->listWidget->addItem(QString("test"+QString::number(ui->listWidget->count()+1)));
     //ui->listWidget->itemAt(ui->listWidget->count()-1)-
+}
+
+void MainWindow::addHistoryItem(const QString &q) {
+    ui->listWidget->addItem(QString::number(ui->listWidget->count()+1)+". "+q);
 }

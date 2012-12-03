@@ -113,7 +113,7 @@ int Chess::move(Pos oldPos, Pos newPos){
         Board[newPos.x()*8+oldPos.y()] = NULL;
         Set[rec.Other_F_ind]->alive = false;
     }
-    else if(tmp->no==KING && ABS(oldPos.x()-newPos.x())==2){ // roszady
+    else if((tmp->no==KING) && (ABS(oldPos.x()-newPos.x())==2)){ // roszady
         rec.Other_figure_moved = true;
         if(newPos.x() == 2){
             rec.Other_F_ind = Board[0*8+oldPos.y()]->index;

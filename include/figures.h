@@ -14,6 +14,7 @@ class Pos {
     public:
         int x() const;
         int y() const;
+        int index() const;
         void setX(int _x);
         void setY(int _y);
         void set(int _x, int _y);
@@ -59,6 +60,7 @@ class Pos {
 
             virtual vector <Pos> possible_moves(Figure * Board[]);
             bool checkMove(Pos newPos);
+            int ifPossMove( Figure *Board[], bool color, Pos test_Pos, bool _kill = true, bool _nokill = true );
             virtual void setPos(int x, int y);
             bool checkBoundaries(const Pos& newPos);
             int move(Pos newPos);

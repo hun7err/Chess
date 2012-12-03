@@ -187,6 +187,12 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                                 //Game::getElem(p2.y(), p2.x())->repaint();
                                 Game::getElem(7-p2.y(),p2.x())->setClicked(false);
                             }
+                            std::cout << Game::chess->moves[1-Game::chess->curr_color].back() << std::endl;
+                            //list<string>::iterator it;
+                            //for(it = Game::chess->moves[1-Game::chess->curr_color].begin(); it != Game::chess->moves[1-Game::chess->curr_color].end(); it++);
+                            //std::cout << *it << std::endl;
+                            //std::cout << "curr_color: " << Game::chess->curr_color << std::endl;
+                            Game::getWindow()->addHistory(QString(Game::chess->moves[1-Game::chess->curr_color].back().c_str()));
                             for(int i = 0; i < 8; i++)
                                 for(int j = 0; j < 8; j++)
                                     Game::getElem(i,j)->repaint();
@@ -239,7 +245,7 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                     for(unsigned int i = 0; i < positions.size(); i++) {
                         Pos p = positions[i];
                         //std::cout << "Possible move: x = " << p.x << ", y = " << p.y << std::endl;
-                        QColor field_c = Game::getElem(p.y(), p.x())->getColor();
+                        QColor field_c = Game::getElem(7-p.y(), p.x())->getColor();
                         c = Colors::sumColors(c_add, field_c);
                         QColor border = Colors::sumColors(QColor(20,20,20),c);
                         //).name()
@@ -257,6 +263,13 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
         if(f == NULL) std::cout << "[ ]";
         else std::cout << "[" << f->no << "]";
         if((i+1) % 8 == 0) std::cout << std::endl;
+    }
+    if(!Game::playing) {
+        vector<Pos> positions = Game::chess->figures_to_move();
+        for(int i = 0; i < positions.size(); i++) {
+            Pos p(positions[i]);
+            std::cout << "pos move: (" << p.x() << "," << p.y() << ")" << std::endl;
+        }
     }
     std::cout << "-----\n";
 }
