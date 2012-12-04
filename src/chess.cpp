@@ -59,10 +59,20 @@ bool Chess::new_game(){
     curr_color = false;
     playing = true;
     moveInd = 0;
+    setStatus(0);
     //Board[4*8+1] = NULL;
     //Board[2*8+1] = NULL;
 
     return true;
+}
+
+void Chess::setStatus(int val){
+    Status = val;
+    return;
+}
+
+int Chess::getStatus(){
+    return Status;
 }
 
 vector <Pos> Chess::figures_to_move(){
@@ -141,7 +151,7 @@ int Chess::move(Pos oldPos, Pos newPos){
     tmp->fig_hist.push(rec);
     History.push(tmp);
 
-    moves[curr_color].push_back(AddToHistory(rec));
+    moves.push_back(AddToHistory(rec));
 
     if(curr_color){
         curr_color = false;
@@ -149,6 +159,14 @@ int Chess::move(Pos oldPos, Pos newPos){
     }
     else curr_color = true;
 
+    King *king = dynamic_cast<King *> (Board[64+curr_color*16]);
+    if(king->not_in_danger(Board,curr_color))
+        setStatus(0);
+    else
+        setStatus(1);
+
+    if(figures_to_move().empty())
+        setStatus(2+getStatus());
 
     if(rec.promoted) return 2;
     else return 1;
@@ -192,7 +210,16 @@ bool Chess::undo(){
         curr_color = true;
         moveInd--;
     }
-    moves[curr_color].pop_back();
+    if(!moves.empty()) moves.pop_back();
+
+    King *king = dynamic_cast<King *> (Board[64+curr_color*16]);
+    if(king->not_in_danger(Board,curr_color))
+        setStatus(0);
+    else
+        setStatus(1);
+
+    if(figures_to_move().empty())
+        setStatus(2+getStatus());
 
     return true;
 }

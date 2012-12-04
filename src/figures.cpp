@@ -2,10 +2,10 @@
 #include <iostream>
 #define ABS(x) ((x) < 0) ? -(x) : x
 
+/*
 using std::cout;
 using std::endl;
 
-/*
 void pisz(Figure *Board[]){
     for(int i=0;i<64;i++){
         if(!(i%8))
@@ -129,22 +129,23 @@ vector<Pos> Pawn::possible_moves(Figure *Board[]){
     vector <Pos> PossMoves;
     // 1 Do przodu:
     Pos test_Pos(curPos.x(),curPos.y()+color*(-2)+1);
-        if(ifPossMove(Board,color,test_Pos,false)&1)
-            PossMoves.push_back(test_Pos);
+    if(ifPossMove(Board,color,test_Pos,false)&1)
+        PossMoves.push_back(test_Pos);
     // 2 Do przodu:
     if(fig_hist.empty()){
         test_Pos.set(curPos.x(),curPos.y()+color*(-4)+2);
-            if(ifPossMove(Board,color,test_Pos,false)&1)
+        if(ifPossMove(Board,color,test_Pos,false)&1)
+            if(!PossMoves.empty());
                 PossMoves.push_back(test_Pos);
     }
     // bicia
     test_Pos.set(curPos.x()+1,curPos.y()+color*(-2)+1);
-        if(ifPossMove(Board,color,test_Pos,true,false)&1)
-            PossMoves.push_back(test_Pos);
+    if(ifPossMove(Board,color,test_Pos,true,false)&1)
+        PossMoves.push_back(test_Pos);
 
     test_Pos.set(curPos.x()-1,curPos.y()+color*(-2)+1);
-        if(ifPossMove(Board,color,test_Pos,true,false)&1)
-            PossMoves.push_back(test_Pos);
+    if(ifPossMove(Board,color,test_Pos,true,false)&1)
+        PossMoves.push_back(test_Pos);
 
 
     Figure *currFig, *help, *help2, *tested_Pos, *kill_Fig;
