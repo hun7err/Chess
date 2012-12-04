@@ -9,18 +9,18 @@ Pos NPos( short int x, short int y){
 }
 
 void pisz(Chess gra){
-    for(int i=0;i<64;i++){
-        if(!(i%8))
-            cout<<endl<<(i/8+1)<<"\t";
-        if(gra.Board[(i%8)*8+i/8]!=NULL)
-            cout<<gra.Board[(i%8)*8+i/8]->no<<' '<<gra.Board[(i%8)*8+i/8]->color<<"\t";
-        else
-            cout<<"_ _\t";
-    }
-    cout<<endl;
     cout<<"y/x\t";
     for(int i=1;i<9;i++)
         cout<<i<<"\t";
+    cout<<endl;
+    for(int i=0;i<64;i++){
+        if(!(i%8))
+            cout<<endl<<(8-i/8)<<"\t";
+        if(gra.Board[(i%8)*8+7-i/8]!=NULL)
+            cout<<gra.Board[(i%8)*8+7-i/8]->no<<' '<<gra.Board[(i%8)*8+7-i/8]->color<<"\t";
+        else
+            cout<<"_ _\t";
+    }
     cout<<endl;
 }
 
@@ -39,8 +39,8 @@ int main(){
     gra.move(NPos(3,6),NPos(3,4));
     gra.move(NPos(3,0),NPos(3,2));
     gra.move(NPos(3,7),NPos(3,5));
-    gra.move(NPos(2,0),NPos(3,1));
-    gra.move(NPos(2,7),NPos(3,6));
+    gra.move(NPos(2,0),NPos(4,2));
+    gra.move(NPos(2,7),NPos(4,5));
     pisz(gra);
     pisz(gra.poss_moves(NPos(4,0)));
 
@@ -54,9 +54,9 @@ int main(){
     //gra.move(NPos(3,1),NPos(3,3));
   //  pisz(gra);
     gra.undo();
-    pisz(gra);
+ //   pisz(gra);
     gra.undo();
-    pisz(gra);
+ //   pisz(gra);
     //pisz2(gra);
     return 0;
 }

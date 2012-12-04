@@ -19,6 +19,7 @@ class Pos {
         void setY(int _y);
         void set(int _x, int _y);
         void set(const Pos& position);
+        void operator=(const Pos& Q);
     Pos();
     Pos(int _x, int _y);
     Pos(const Pos& position);
