@@ -113,9 +113,10 @@ int Figure::ifPossMove( Figure *Board[], bool color, Pos test_Pos, bool _kill, b
         status = king->not_in_danger(Board,color);
         Board[curPos.index()] = Board[test_Pos.index()];
         Board[test_Pos.index()] = help;
-        if(help != NULL)
-            status+=2;
     }
+    if( Board[test_Pos.index()] != NULL )
+        status+=2;
+
     return status;
 }
 
