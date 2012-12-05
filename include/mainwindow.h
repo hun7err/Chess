@@ -27,6 +27,8 @@ private slots:
     void on_pushButton_clicked();
     void updateCaption();
 
+    void on_actionCofnij_triggered();
+
 signals:
     void setCurPlayer(const QString&);
     void addHistItem(const QString&);

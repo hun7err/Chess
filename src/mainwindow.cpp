@@ -90,6 +90,7 @@ void MainWindow::setCurrentPlayer(const QString &q) {
 
 void MainWindow::on_actionNowa_gra_triggered()
 {
+    if(timer->isActive()) timer->stop();
     Game::newGame();
     ui->listWidget->clear();
     this->setCurrentPlayer(QString::fromUtf8("Biały"));
@@ -106,7 +107,6 @@ void MainWindow::on_actionNowa_gra_triggered()
         - okno do ustawiania czasu trwania partii (odpowiedni komponent Qt)
     */
 
->>>>>>> 9f82f7d2a2e92422e13c413d869127494165cee6
     //std::cout << "Nowa gra" << std::endl;
 }
 
@@ -125,4 +125,14 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::addHistoryItem(const QString &q) {
     ui->listWidget->addItem(QString::number(ui->listWidget->count()+1)+". "+q);
+}
+
+void MainWindow::on_actionCofnij_triggered()
+{
+    timer->stop();
+    Game::chess->undo();
+    for(int i = 0; i < 8; i++)
+        for(int j = 0; j < 8; j++)
+            Game::getElem(i,j)->repaint();
+    timer->start(1000);
 }

@@ -29,8 +29,9 @@
     /// Figure::move(...) posiible returns:
     /*#define FALSE 0 // move impossible
     #define TRUE 1  // moved*/
-    #define MAT 2   // end of game by winning
-    #define PAT 3   // end of game by no more possible moves
+    #define CHECK 1
+    #define MAT 3   // end of game by winning
+    #define PAT 2   // end of game by no more possible moves
 
     #define ABS(x) ((x) < 0) ? -(x) : x
 

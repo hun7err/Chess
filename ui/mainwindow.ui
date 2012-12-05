@@ -186,7 +186,7 @@
      <x>0</x>
      <y>0</y>
      <width>741</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -205,8 +205,15 @@
     </property>
     <addaction name="actionCofnij"/>
    </widget>
+   <widget class="QMenu" name="menuPomoc">
+    <property name="title">
+     <string>Pomoc</string>
+    </property>
+    <addaction name="actionO_programie"/>
+   </widget>
    <addaction name="menuPlik"/>
    <addaction name="menuEdycja"/>
+   <addaction name="menuPomoc"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionWyjd">
@@ -225,6 +232,11 @@
   <action name="actionCofnij">
    <property name="text">
     <string>Cofnij</string>
+   </property>
+  </action>
+  <action name="actionO_programie">
+   <property name="text">
+    <string>O programie...</string>
    </property>
   </action>
  </widget>

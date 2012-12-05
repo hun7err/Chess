@@ -180,7 +180,7 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                             Game::getElem(7-_y, _x)->toggleStyle(); // zmień styl pola poprzedniej figury
                             //Game::getElem(_y,_x)->setClicked(false); // nie kliknięto poprzedniego pola
                             Game::getElem(7-y,x)->setClicked(false);
-                            moved = true;
+                            moved = true;       // ruszono figurę
                             for(unsigned int i = 0; i < positions.size(); i++) {
                                 Pos p2 = positions[i];
                                 Game::getElem(7-p2.y(), p2.x())->toggleStyle();
@@ -193,6 +193,18 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                             //std::cout << *it << std::endl;
                             //std::cout << "curr_color: " << Game::chess->curr_color << std::endl;
                             Game::getWindow()->addHistory(QString(Game::chess->moves.back().c_str()));
+                            switch(Game::chess->getStatus()) {
+                                case CHECK:
+                                std::cout << "Szach" << std::endl;
+                                break;
+                                case PAT:
+                                std::cout << "Pat" << std::endl;
+                                break;
+                                case MAT:
+                                std::cout << "Mat" << std::endl;
+                                break;
+                            }
+
                             for(int i = 0; i < 8; i++)
                                 for(int j = 0; j < 8; j++)
                                     Game::getElem(i,j)->repaint();
