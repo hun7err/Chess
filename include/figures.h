@@ -19,6 +19,7 @@ class Pos {
         void setY(int _y);
         void set(int _x, int _y);
         void set(const Pos& position);
+        void operator= (const Pos& Q);
     Pos();
     Pos(int _x, int _y);
     Pos(const Pos& position);
@@ -61,6 +62,7 @@ class Pos {
             virtual vector <Pos> possible_moves(Figure * Board[]);
             bool checkMove(Pos newPos);
             int ifPossMove( Figure *Board[], bool color, Pos test_Pos, bool _kill = true, bool _nokill = true );
+            int ifKingPossMove( Figure *Board[], bool color, Pos test_Pos, Pos oldPos);
             virtual void setPos(int x, int y);
             bool checkBoundaries(const Pos& newPos);
             int move(Pos newPos);
@@ -108,7 +110,7 @@ class Pos {
     ~Bishop();
     };
 
-    class Knight : public Figure{
+    class Knight : public Figure {
         public:
             //void setPos(int x, int y);
             vector <Pos> possible_moves(Figure * Board[]);

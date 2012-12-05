@@ -75,9 +75,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>180</y>
+       <y>160</y>
        <width>181</width>
-       <height>241</height>
+       <height>261</height>
       </rect>
      </property>
      <property name="autoScroll">
@@ -85,6 +85,97 @@
      </property>
      <property name="flow">
       <enum>QListView::TopToBottom</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>30</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Czarny</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Time0">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>50</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>10:00</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="Time1">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>50</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>10:00</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Biały</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>90</y>
+       <width>93</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ruch</string>
      </property>
     </widget>
    </widget>
@@ -103,12 +194,19 @@
    </property>
    <widget class="QMenu" name="menuPlik">
     <property name="title">
-     <string>Plik</string>
+     <string>Menu</string>
     </property>
     <addaction name="actionNowa_gra"/>
     <addaction name="actionWyjd"/>
    </widget>
+   <widget class="QMenu" name="menuEdycja">
+    <property name="title">
+     <string>Edycja</string>
+    </property>
+    <addaction name="actionCofnij"/>
+   </widget>
    <addaction name="menuPlik"/>
+   <addaction name="menuEdycja"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionWyjd">
@@ -122,6 +220,11 @@
   <action name="actionNowa_gra">
    <property name="text">
     <string>Nowa gra</string>
+   </property>
+  </action>
+  <action name="actionCofnij">
+   <property name="text">
+    <string>Cofnij</string>
    </property>
   </action>
  </widget>

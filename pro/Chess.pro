@@ -39,3 +39,12 @@ CONFIG(release, debug|release) {
         OBJECTS_DIR = ../obj/release
         MOC_DIR = ../moc/release
 }
+
+HEADERS += \
+    ../ui/timeset.h
+
+SOURCES += \
+    ../ui/timeset.cpp
+
+FORMS += \
+    ../ui/timeset.ui

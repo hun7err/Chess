@@ -155,8 +155,8 @@ QPoint Game::getLastPos() {
 }
 
 void BoardWidget::mousePressEvent(QMouseEvent *) {
-    std::cout << "Widget " << x << "," << y << " clicked\n";
-    std::cout << "lastPos: " << Game::getLastPos().x() << "," << Game::getLastPos().y() << std::endl;
+    std::cout << "[debug] Widget " << x << "," << y << " clicked\n";
+    std::cout << "[debug] lastPos: " << Game::getLastPos().x() << "," << Game::getLastPos().y() << std::endl;
     if(!Game::playing) {  // jeśli gra trwa
         Figure *f = Game::chess->Board[x*8+y]; // wybierz figurę na aktualnym polu
         bool moved = false; // nie ruszono (jeszcze) poprzedniej figury
@@ -169,14 +169,14 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
             else if(_x != -1 && _y != -1) { // jeśli wybrano już jakąś figurę przed obecnie analizowanym polem...
                 Pos p_old(_x,_y), p_new(x,y); // pozycja wybranej wcześniej figury i obecnego pola
 
-                std::cout << "checking chess->move()" << std::endl;
+                std::cout << "[debug] checking chess->move()" << std::endl;
                 vector<Pos> positions = Game::chess->poss_moves(p_old); // sprawdzamy możliwe ruchy
                 // wrzucić do ifa od positions
                 for (unsigned int i = 0; i < positions.size(); i++) {
                     Pos p2(positions[i]);
                     if(p2.x() == x && p2.y() == y) {
                         if(Game::chess->move(p_old, p_new) != false && !positions.empty()) { // jeśli można się ruszyć
-                            std::cout << "Ruch" << std::endl;
+                            std::cout << "[debug] Ruch" << std::endl;
                             Game::getElem(7-_y, _x)->toggleStyle(); // zmień styl pola poprzedniej figury
                             //Game::getElem(_y,_x)->setClicked(false); // nie kliknięto poprzedniego pola
                             Game::getElem(7-y,x)->setClicked(false);
@@ -187,12 +187,12 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                                 //Game::getElem(p2.y(), p2.x())->repaint();
                                 Game::getElem(7-p2.y(),p2.x())->setClicked(false);
                             }
-                            std::cout << Game::chess->moves[1-Game::chess->curr_color].back() << std::endl;
+                            std::cout << Game::chess->moves.back() << std::endl;
                             //list<string>::iterator it;
                             //for(it = Game::chess->moves[1-Game::chess->curr_color].begin(); it != Game::chess->moves[1-Game::chess->curr_color].end(); it++);
                             //std::cout << *it << std::endl;
                             //std::cout << "curr_color: " << Game::chess->curr_color << std::endl;
-                            Game::getWindow()->addHistory(QString(Game::chess->moves[1-Game::chess->curr_color].back().c_str()));
+                            Game::getWindow()->addHistory(QString(Game::chess->moves.back().c_str()));
                             for(int i = 0; i < 8; i++)
                                 for(int j = 0; j < 8; j++)
                                     Game::getElem(i,j)->repaint();
@@ -205,7 +205,7 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
 
                 //Game::setLastPos(-1, -1); // reset the last pos.
             }
-        } else if (f != NULL && f->color == Game::chess->curr_color && _x != -1 && _y != -1) {
+        } else if (f != NULL && f->color == Game::chess->curr_color && _x != -1 && _y != -1) { // zmiana wybranej figury na inną tego samego koloru
             Pos p_old(_x,_y); // pozycja wybranej wcześniej figury i obecnego pola
 
             vector<Pos> positions = Game::chess->poss_moves(p_old);
@@ -224,9 +224,10 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
             }
             moved = false;
         }
+        //std::cout << "Player change" << std::endl;
             Game::getWindow()->playerChange(QString::fromUtf8(Game::chess->curr_color ? "Czarny" : "Biały"));
 
-        if(f != NULL && f->color == Game::chess->curr_color) {
+        if(f != NULL && f->color == Game::chess->curr_color) { // zmiana stylu po wybraniu swojej figury
             //if(!isClicked()) { // if field hasn't been clicked yet
                 if(!moved) {
                     this->setToggleStyle(QString("background-color: "+QColor(255,255,102).name()+"; border: 1px solid black"));
@@ -242,9 +243,10 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                     //std::cout << "wywoluje Game::chess->poss_moves([" << f->curPos.x << "," << f->curPos.y << "])" << std::endl;
                     QColor c, c_add(0,194,255);
                     vector<Pos> positions = Game::chess->poss_moves(f->curPos);
+                    std::cout << "[debug] Possible moves dla f=" << f->no << std::endl;
                     for(unsigned int i = 0; i < positions.size(); i++) {
                         Pos p = positions[i];
-                        //std::cout << "Possible move: x = " << p.x << ", y = " << p.y << std::endl;
+                        std::cout << "[debug] Possible move: (" << p.x() << "," << p.y() << ")" << std::endl;
                         QColor field_c = Game::getElem(7-p.y(), p.x())->getColor();
                         c = Colors::sumColors(c_add, field_c);
                         QColor border = Colors::sumColors(QColor(20,20,20),c);
@@ -257,21 +259,22 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
             //} // if (!isClicked())
         } // if(Game::chess->Board[x*8+y]->color == Game::chess->curr_color)
         if(moved) Game::setLastPos(-1, -1);
-    } // if(!Game::playing)
+    }
+    if(!Game::playing) {
     for(int i = 0; i < 64; i++) {
         Figure* f = Game::chess->Board[i];
         if(f == NULL) std::cout << "[ ]";
         else std::cout << "[" << f->no << "]";
         if((i+1) % 8 == 0) std::cout << std::endl;
     }
-    if(!Game::playing) {
+    /*if(!Game::playing) {
         vector<Pos> positions = Game::chess->figures_to_move();
         for(int i = 0; i < positions.size(); i++) {
             Pos p(positions[i]);
             std::cout << "pos move: (" << p.x() << "," << p.y() << ")" << std::endl;
         }
-    }
-    std::cout << "-----\n";
+    }*/
+    std::cout << "-----\n"; }
 }
 
 void BoardWidget::setColor(QColor col) {
