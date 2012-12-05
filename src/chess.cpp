@@ -4,6 +4,8 @@
 
 Chess::Chess(){
     playing = false;
+    for(int i = 0; i<32; i++)
+        Set[i]=NULL;
     this->new_game();
 }
 Chess::~Chess(){
