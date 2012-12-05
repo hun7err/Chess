@@ -199,7 +199,14 @@
     <addaction name="actionNowa_gra"/>
     <addaction name="actionWyjd"/>
    </widget>
+   <widget class="QMenu" name="menuEdycja">
+    <property name="title">
+     <string>Edycja</string>
+    </property>
+    <addaction name="actionCofnij"/>
+   </widget>
    <addaction name="menuPlik"/>
+   <addaction name="menuEdycja"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionWyjd">
@@ -213,6 +220,11 @@
   <action name="actionNowa_gra">
    <property name="text">
     <string>Nowa gra</string>
+   </property>
+  </action>
+  <action name="actionCofnij">
+   <property name="text">
+    <string>Cofnij</string>
    </property>
   </action>
  </widget>

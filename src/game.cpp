@@ -155,8 +155,8 @@ QPoint Game::getLastPos() {
 }
 
 void BoardWidget::mousePressEvent(QMouseEvent *) {
-    std::cout << "Widget " << x << "," << y << " clicked\n";
-    std::cout << "lastPos: " << Game::getLastPos().x() << "," << Game::getLastPos().y() << std::endl;
+    std::cout << "[debug] Widget " << x << "," << y << " clicked\n";
+    std::cout << "[debug] lastPos: " << Game::getLastPos().x() << "," << Game::getLastPos().y() << std::endl;
     if(!Game::playing) {  // jeśli gra trwa
         Figure *f = Game::chess->Board[x*8+y]; // wybierz figurę na aktualnym polu
         bool moved = false; // nie ruszono (jeszcze) poprzedniej figury
@@ -169,14 +169,14 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
             else if(_x != -1 && _y != -1) { // jeśli wybrano już jakąś figurę przed obecnie analizowanym polem...
                 Pos p_old(_x,_y), p_new(x,y); // pozycja wybranej wcześniej figury i obecnego pola
 
-                std::cout << "checking chess->move()" << std::endl;
+                std::cout << "[debug] checking chess->move()" << std::endl;
                 vector<Pos> positions = Game::chess->poss_moves(p_old); // sprawdzamy możliwe ruchy
                 // wrzucić do ifa od positions
                 for (unsigned int i = 0; i < positions.size(); i++) {
                     Pos p2(positions[i]);
                     if(p2.x() == x && p2.y() == y) {
                         if(Game::chess->move(p_old, p_new) != false && !positions.empty()) { // jeśli można się ruszyć
-                            std::cout << "Ruch" << std::endl;
+                            std::cout << "[debug] Ruch" << std::endl;
                             Game::getElem(7-_y, _x)->toggleStyle(); // zmień styl pola poprzedniej figury
                             //Game::getElem(_y,_x)->setClicked(false); // nie kliknięto poprzedniego pola
                             Game::getElem(7-y,x)->setClicked(false);
@@ -224,6 +224,7 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
             }
             moved = false;
         }
+        //std::cout << "Player change" << std::endl;
             Game::getWindow()->playerChange(QString::fromUtf8(Game::chess->curr_color ? "Czarny" : "Biały"));
 
         if(f != NULL && f->color == Game::chess->curr_color) { // zmiana stylu po wybraniu swojej figury
@@ -242,10 +243,10 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
                     //std::cout << "wywoluje Game::chess->poss_moves([" << f->curPos.x << "," << f->curPos.y << "])" << std::endl;
                     QColor c, c_add(0,194,255);
                     vector<Pos> positions = Game::chess->poss_moves(f->curPos);
-                    std::cout << "Possible moves dla f=" << f->no << std::endl;
+                    std::cout << "[debug] Possible moves dla f=" << f->no << std::endl;
                     for(unsigned int i = 0; i < positions.size(); i++) {
                         Pos p = positions[i];
-                        std::cout << "Possible move: (" << p.x() << "," << p.y() << ")" << std::endl;
+                        std::cout << "[debug] Possible move: (" << p.x() << "," << p.y() << ")" << std::endl;
                         QColor field_c = Game::getElem(7-p.y(), p.x())->getColor();
                         c = Colors::sumColors(c_add, field_c);
                         QColor border = Colors::sumColors(QColor(20,20,20),c);
@@ -258,7 +259,8 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
             //} // if (!isClicked())
         } // if(Game::chess->Board[x*8+y]->color == Game::chess->curr_color)
         if(moved) Game::setLastPos(-1, -1);
-    } // if(!Game::playing)
+    }
+    if(!Game::playing) {
     for(int i = 0; i < 64; i++) {
         Figure* f = Game::chess->Board[i];
         if(f == NULL) std::cout << "[ ]";
@@ -272,7 +274,7 @@ void BoardWidget::mousePressEvent(QMouseEvent *) {
             std::cout << "pos move: (" << p.x() << "," << p.y() << ")" << std::endl;
         }
     }*/
-    std::cout << "-----\n";
+    std::cout << "-----\n"; }
 }
 
 void BoardWidget::setColor(QColor col) {

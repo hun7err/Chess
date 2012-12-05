@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateCaption()));
-    timer->start(1000);
     //QTimer* timer = new QTimer(this);
     //connect(timer, SIGNAL(timeout()), this, SLOT(updateCaption()));
     //timer->start(1000);
@@ -80,8 +79,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_actionWyjd_triggered()
-{
+void MainWindow::on_actionWyjd_triggered() {
     this->destroy();
     exit(0);
 }
@@ -98,12 +96,26 @@ void MainWindow::on_actionNowa_gra_triggered()
     for(int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
             Game::getElem(i, j)->repaint();
+    timer->start(1000);
+
+    /*
+        to-do:
+        - wyrzucić metody stopujące i startujące timer do publica
+        - sprawdzanie pola na starcie i uniemożliwiwanie ruchu
+        - sprawdzanie stanu gry i messagebox+stopowanie jak pat/mat
+        - okno do ustawiania czasu trwania partii (odpowiedni komponent Qt)
+    */
+
     //std::cout << "Nowa gra" << std::endl;
 }
 
 void MainWindow::on_pushButton_clicked()
 {
+    // wyrzucić do ruchu figurą; wtedy stopować timer i startować z interwałem 1000ms
+    // (no i wywalić ten przycisk :p)
+    timer->stop();
     cur_player = (cur_player+1)%2;
+    timer->start(1000);
     //ui->listWidget->addItem(QString("test"+QString::number(ui->listWidget->count()+1)));
     //if(timer->isActive()) timer->stop();
     //else timer->start(1000);
