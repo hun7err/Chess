@@ -6,7 +6,10 @@ Chess::Chess(){
     playing = false;
     this->new_game();
 }
-Chess::~Chess(){}
+Chess::~Chess(){
+    for(int i = 0; i<32; i++)
+        delete(Set[i]);
+}
 
 bool Chess::new_game(){
     //cout<<"newGame\n";
@@ -19,6 +22,8 @@ bool Chess::new_game(){
         Board[i] = NULL;
     }
     for(int i = 0; i<32; i++){
+        if(Set[i]!=NULL)
+            delete(Set[i]);
         if(Kind[i%16]==KING){
             King *king = new King();
             Set[i] = king;
