@@ -3,6 +3,8 @@
 #include <QLabel>
 #include <QObject>
 #include <QListWidgetItem>
+#include <QTimer>
+#include <QTime>
 #include <iostream>
 #include "../include/game.h"
 
@@ -10,6 +12,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateCaption()));
+    timer->start(1000);
+    //QTimer* timer = new QTimer(this);
+    //connect(timer, SIGNAL(timeout()), this, SLOT(updateCaption()));
+    //timer->start(1000);
+
     ui->setupUi(this);
     QObject::connect(this, SIGNAL(setCurPlayer(QString)), this, SLOT(setCurrentPlayer(QString)));
     QObject::connect(this, SIGNAL(addHistItem(QString)), this, SLOT(addHistoryItem(QString)));
@@ -19,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->listWidget,
         SLOT(scrollToBottom ())
     ); // a magic trick to scroll down. Do not touch.
+    cur_player = 0;
     boardwid = new QWidget(this);
     boardwid->setGeometry(18, 45, 8*61, 8*61);
     boardwid->setStyleSheet(QString("background-color: #000000; border: 1px solid black"));
@@ -39,6 +49,22 @@ MainWindow::MainWindow(QWidget *parent) :
         label1->setVisible(true);
         label2->setVisible(true);
     }
+}
+
+void MainWindow::updateCaption() {
+    QTime t;
+    if(cur_player == 0)
+        t = QTime::fromString(ui->Time0->text(), "mm:ss");
+    else
+        t = QTime::fromString(ui->Time1->text(), "mm:ss");
+    //= QTime::fromString(ui->BlackTime->text(), "mm:ss");
+    //t.addSecs(1);
+    t = t.addSecs(-1);
+    std::cout << "Time update: " << t.toString("mm:ss").toStdString() << std::endl;
+    if(cur_player == 0)
+        ui->Time0->setText(t.toString("mm:ss"));
+    else
+        ui->Time1->setText(t.toString("mm:ss"));
 }
 
 void MainWindow::playerChange(const QString &q) {
@@ -67,6 +93,7 @@ void MainWindow::setCurrentPlayer(const QString &q) {
 void MainWindow::on_actionNowa_gra_triggered()
 {
     Game::newGame();
+    ui->listWidget->clear();
     this->setCurrentPlayer(QString::fromUtf8("Biały"));
     for(int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
@@ -76,7 +103,10 @@ void MainWindow::on_actionNowa_gra_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-    ui->listWidget->addItem(QString("test"+QString::number(ui->listWidget->count()+1)));
+    cur_player = (cur_player+1)%2;
+    //ui->listWidget->addItem(QString("test"+QString::number(ui->listWidget->count()+1)));
+    //if(timer->isActive()) timer->stop();
+    //else timer->start(1000);
     //ui->listWidget->itemAt(ui->listWidget->count()-1)-
 }
 

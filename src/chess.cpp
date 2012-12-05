@@ -232,7 +232,7 @@ string Chess::AddToHistory( Hist_rec rec ){
     if(rec.Other_figure_moved)
         return (rec.Position_after.x() == 2) ? "0-0-0" :"0-0";
 
-    string data = "a0 a0";
+    string data = "a1 a1";
     data[0] += rec.Position_before.x();
     data[1] += rec.Position_before.y();
     data[2] = (rec.Other_figure_killed) ? ':' : '-';

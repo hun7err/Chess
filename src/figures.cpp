@@ -21,7 +21,6 @@ void pisz(Figure *Board[]){
         cout<<i<<"  ";
     cout<<endl;
 }
-/*
 Pos NPos( short int x, short int y){
     Pos nPos; nPos.set(x,y);
     return nPos;
