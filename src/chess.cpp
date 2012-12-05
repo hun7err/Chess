@@ -1,4 +1,6 @@
 #include "../include/chess.h"
+//using std:://cout;
+//using std::endl;
 
 Chess::Chess(){
     playing = false;
@@ -7,6 +9,7 @@ Chess::Chess(){
 Chess::~Chess(){}
 
 bool Chess::new_game(){
+    //cout<<"newGame\n";
     int Kind[]= {KING,QUEEN,BISHOP,BISHOP,KNIGHT,KNIGHT,ROOK,ROOK,PAWN,PAWN,PAWN,PAWN,PAWN,PAWN,PAWN,PAWN},
         fval[]={13,9,3,3,3,3,5,5,1,1,1,1,1,1,1,1},
         pos_x[]={4,3,2,5,1,6,0,7},
@@ -76,25 +79,31 @@ int Chess::getStatus(){
 }
 
 vector <Pos> Chess::figures_to_move(){
+    //cout<<"Chess::figures_to_move\n";
+
     vector <Pos> ret,
                  check;
 
     for(int i=0; i<16; i++){
         if(!Set[i+curr_color*16]->alive)
             continue;
+        //if(Set[i+curr_color*16]->no);
+        //cout<<Set[i+curr_color*16]->no<<' ';
 
         check = Set[i+curr_color*16]->possible_moves(Board);
 
         if(!check.empty())
             ret.push_back(Set[i+curr_color*16]->curPos);
     }
+    //cout<<"after Chess::figures_to_move\n";
     return ret;
 }
 
 vector <Pos> Chess::poss_moves(Pos figPos){
+    //cout<<"Chess::poss_moves\n";
     if(Board[figPos.x()*8+figPos.y()] != NULL)
         if(Board[figPos.x()*8+figPos.y()]->color == curr_color) {
-            //std::cout << "Wywoluje odpowiednie possible_moves" << std::endl;
+            std::cout << "Wywoluje odpowiednie possible_moves" << std::endl;
             return Board[figPos.x()*8+figPos.y()]->possible_moves(Board);
         }
     vector<Pos> nic;
@@ -173,6 +182,8 @@ int Chess::move(Pos oldPos, Pos newPos){
 }
 
 bool Chess::undo(){
+    //cout<<"Chess::undo\n";
+
     if(History.empty()) return false;
     Hist_rec rec = History.top()->fig_hist.top();
     History.top()->fig_hist.pop();
@@ -199,7 +210,7 @@ bool Chess::undo(){
         }
     }
     if(rec.promoted){ // promocja
-        tmp->no = 0;
+        changeType(tmp->curPos,PAWN);
     }
     if(History.empty())
         Board[99] = NULL;
@@ -225,14 +236,61 @@ bool Chess::undo(){
 }
 
 bool Chess::changeType(Pos curPos, int newType){
+    //cout<<"Chess::chType\n";
+
+    Figure *old = Board[curPos.index()];
+    if(newType==PAWN){
+        Pawn *pawn = new Pawn();
+        Set[old->index] = pawn;
+    }
+    else if(newType==QUEEN){
+        Queen *queen = new Queen();
+        Set[old->index] = queen;
+    }
+    else if(newType==KNIGHT){
+        Knight *knight = new Knight();
+        Set[old->index] = knight;
+    }
+    else if(newType==BISHOP){
+        Bishop *bishop = new Bishop();
+        Set[old->index] = bishop;
+    }
+    else if(newType==ROOK){
+        Rook *rook = new Rook();
+        Set[old->index] = rook;
+    }
+    else return false;
+    Figure *cur = Set[old->index];
+    Board[curPos.index()] = cur;
+    Board[64+old->index] = cur;
+
+    cur->no = old->no;
+    cur->index = old->index;
+    cur->color = old->color;
+    cur->alive = old->alive;
+    cur->curPos = old->curPos;
+    cur->val = old->val;
+    stack <Hist_rec> help;
+    while(!old->fig_hist.empty()){
+        help.push(old->fig_hist.top());
+        old->fig_hist.pop();
+    }
+    while(!help.empty()){
+        cur->fig_hist.push(help.top());
+        help.pop();
+    }
+    delete(old);
+
     return Board[curPos.x()*8+curPos.y()]->changeType(newType);
 }
 
 string Chess::AddToHistory( Hist_rec rec ){
+    //cout<<"Chess::AddToHist\n";
+
     if(rec.Other_figure_moved)
         return (rec.Position_after.x() == 2) ? "0-0-0" :"0-0";
 
-    string data = "a0 a0";
+    string data = "a1 a1";
     data[0] += rec.Position_before.x();
     data[1] += rec.Position_before.y();
     data[2] = (rec.Other_figure_killed) ? ':' : '-';

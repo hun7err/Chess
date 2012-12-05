@@ -62,6 +62,7 @@ class Pos {
             virtual vector <Pos> possible_moves(Figure * Board[]);
             bool checkMove(Pos newPos);
             int ifPossMove( Figure *Board[], bool color, Pos test_Pos, bool _kill = true, bool _nokill = true );
+            int ifKingPossMove( Figure *Board[], bool color, Pos test_Pos, Pos oldPos);
             virtual void setPos(int x, int y);
             bool checkBoundaries(const Pos& newPos);
             int move(Pos newPos);
