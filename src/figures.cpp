@@ -3,23 +3,24 @@
 #define ABS(x) ((x) < 0) ? -(x) : x
 
 /*
+
 using std::cout;
 using std::endl;
 
 void pisz(Figure *Board[]){
     for(int i=0;i<64;i++){
         if(!(i%8))
-            cout<<endl<<(i/8+1)<<"    ";
+            //cout<<endl<<(i/8+1)<<"    ";
         if(Board[(i%8)*8+i/8]!=NULL)
-            cout<<Board[(i%8)*8+i/8]->no<<""<<Board[(i%8)*8+i/8]->color<<" ";
+            //cout<<Board[(i%8)*8+i/8]->no<<""<<Board[(i%8)*8+i/8]->color<<" ";
         else
-            cout<<"__ ";
+            //cout<<"__ ";
     }
-    cout<<endl;
-    cout<<"y/x  ";
+    //cout<<endl;
+    //cout<<"y/x  ";
     for(int i=1;i<9;i++)
-        cout<<i<<"  ";
-    cout<<endl;
+        //cout<<i<<"  ";
+    //cout<<endl;
 }
 Pos NPos( short int x, short int y){
     Pos nPos; nPos.set(x,y);
@@ -65,7 +66,7 @@ bool Figure::checkBoundaries(const Pos& newPos) {
 }
 
 int Figure::move(Pos newPos) {
-    std::cout << "Move" << std::endl;
+    //cout << "Move" << std::endl;
     if(checkMove(newPos)) {
         this->curPos.set(newPos);
         //this->curPos.x = newPos.x;
@@ -79,7 +80,7 @@ void Figure::setPos(int x, int y) {
 }
 
 vector <Pos> Figure::possible_moves(Figure * Board[]) {
-    std::cout << "possible_moves z Figure" << std::endl;
+    //cout << "possible_moves z Figure" << std::endl;
     vector<Pos> ret;
     return ret;
 }
@@ -89,6 +90,7 @@ int Figure::getVal() {
 }
 
 bool Figure::changeType(int newType){
+    //cout<<"changeType\n";
     if( no==PAWN )
         if ( curPos.y() == 0 || curPos.y() == 7 )
             if ( newType==ROOK || newType==BISHOP || newType==KNIGHT || newType==QUEEN ){
@@ -99,6 +101,7 @@ bool Figure::changeType(int newType){
 }
 
 int Figure::ifPossMove( Figure *Board[], bool color, Pos test_Pos, bool _kill, bool _nokill){
+    //cout<<"ifPossMove\n";
     int status = 0;
     King *king = dynamic_cast<King *> (Board[64+color*16]);
 
@@ -120,12 +123,36 @@ int Figure::ifPossMove( Figure *Board[], bool color, Pos test_Pos, bool _kill, b
     return status;
 }
 
+int Figure::ifKingPossMove( Figure *Board[], bool color, Pos test_Pos, Pos oldPos){
+    //cout<<"ifKingPossMove\n";
+    int status = 0;
+    King *king = dynamic_cast<King *> (Board[64+color*16]);
+
+    if(!checkBoundaries(test_Pos))
+        return 2;
+
+    if((Board[test_Pos.index()] == NULL)||((Board[test_Pos.index()] != NULL)&&((Board[test_Pos.index()]->color != color)))){
+        Figure *help = NULL;
+        help = Board[test_Pos.index()];
+        Board[test_Pos.index()] = Board[oldPos.index()];
+        Board[oldPos.index()] = NULL;
+        status = king->not_in_danger(Board,color);
+        Board[oldPos.index()] = Board[test_Pos.index()];
+        Board[test_Pos.index()] = help;
+    }
+    if( Board[test_Pos.index()] != NULL )
+        status+=2;
+
+    return status;
+}
+
 ///#######################################
 
 Pawn::Pawn(){}
 Pawn::~Pawn(){}
 
 vector<Pos> Pawn::possible_moves(Figure *Board[]){
+    //cout<<"Pawn::possible_moves\n";
     vector <Pos> PossMoves;
     // 1 Do przodu:
     Pos test_Pos(curPos.x(),curPos.y()+color*(-2)+1);
@@ -206,6 +233,7 @@ Queen::Queen(){}
 Queen::~Queen(){}
 
 vector<Pos> Queen::possible_moves(Figure *Board[]){
+    //cout<<"Queen::possible_moves\n";
     vector <Pos> PossMoves;
     Pos test_Pos;
     /*
@@ -237,6 +265,7 @@ Rook::Rook(){}
 Rook::~Rook(){}
 
 vector <Pos> Rook::possible_moves(Figure *Board[]){
+    //cout<<"Rook::possible_moves\n";
     vector <Pos> PossMoves;
     Pos test_Pos;
     /*
@@ -265,6 +294,7 @@ Bishop::Bishop(){}
 Bishop::~Bishop(){}
 
 vector <Pos>Bishop::possible_moves(Figure *Board[]){
+    //cout<<"Bishop::possible_moves\n";
     vector <Pos> PossMoves;
     Pos test_Pos;
     /*
@@ -295,6 +325,7 @@ Knight::Knight(){}
 Knight::~Knight(){}
 
 vector<Pos> Knight::possible_moves(Figure *Board[]){
+    //cout<<"Knight::possible_moves\n";
     int kn_mvs[8][2]={{2,1},{2,-1},{-2,1},{-2,-1},{1,2},{1,-2},{-1,2},{-1,-2}};
     vector <Pos> PossMoves;
     Pos test_Pos;
@@ -315,83 +346,47 @@ King::King(){}
 King::~King(){}
 
 vector<Pos> King::possible_moves(Figure *Board[]){
-    King *king = dynamic_cast<King *> (Board[64+color*16]);
-    bool if_not_danger = king->not_in_danger(Board,color);
+    //cout<<"King::possible_moves\n";
     vector <Pos> PossMoves;
-    Pos test_Pos;
-    Figure *currFig, *help, /* *help2,*/ *tested_Pos;
-    currFig = Board[curPos.x()*8+curPos.y()];
-    Board[curPos.x()*8+curPos.y()] = NULL;
+
+    bool if_not_danger = ifPossMove(Board,color,curPos)&1;
+    Pos test_Pos, oldPos = curPos;
 
     for(int i=0;i<9;i++){
         if(i==4)
             continue;
 
-        test_Pos.set(curPos.x()+i/3-1,curPos.y()+i%3-1);
-        if(checkBoundaries(test_Pos)==false)
-            continue;
+        test_Pos.set(oldPos.x()+i/3-1,oldPos.y()+i%3-1);
+        curPos = test_Pos;
 
-        tested_Pos = Board[(curPos.x()+i/3-1)*8+curPos.y()+i%3-1];
-
-        if(tested_Pos==NULL){
-            tested_Pos = currFig;
-            if(king->not_in_danger(Board,color)==true)
-                PossMoves.push_back(test_Pos);
-            tested_Pos = NULL;
-        }
-        else if(tested_Pos->color!=color){
-            help = tested_Pos;
-            tested_Pos = currFig;
-            curPos = test_Pos;
-            if(king->not_in_danger(Board,color)==true)
-                PossMoves.push_back(test_Pos);
-            tested_Pos = help;
+        if(ifKingPossMove(Board,color,test_Pos,oldPos)&1){
+            PossMoves.push_back(test_Pos);
+            //cout<<"tk_ i: "<<i<<" x,y: "<<test_Pos.x()<<' '<<test_Pos.y()<<endl;
+            if(i==7){
+                test_Pos.set(oldPos.x()+2,oldPos.y());
+                curPos = test_Pos;
+                //cout<<"_3"<<' '<<test_Pos.x()<<' '<<test_Pos.y()<<endl;
+                if(ifKingPossMove(Board,color,test_Pos,oldPos)&1)
+                    PossMoves.push_back(test_Pos);
+            }
+            else if(i==1){
+                test_Pos.set(oldPos.x()-2,oldPos.y());
+                //cout<<"_5"<<' '<<test_Pos.x()<<' '<<test_Pos.y()<<endl;
+                curPos = test_Pos;
+                if(ifKingPossMove(Board,color,test_Pos,oldPos)&1)
+                    PossMoves.push_back(test_Pos);
+            }
         }
     }
-
-    if(if_not_danger&&fig_hist.empty()){ //ROSZADY
-       tested_Pos = Board[0*8+curPos.y()];
-        if(tested_Pos!=NULL)
-            if(tested_Pos->fig_hist.empty())
-                if(Board[1*8+curPos.y()]==NULL&&Board[2*8+curPos.y()]==NULL&&Board[3*8+curPos.y()]==NULL){
-                    swap(Board[0*8+curPos.y()],Board[3*8+curPos.y()]);
-                    swap(Board[4*8+curPos.y()],Board[2*8+curPos.y()]);
-                    curPos.setX(2);
-
-                    if(king->not_in_danger(Board,color)==true)
-                        PossMoves.push_back(curPos);
-
-                    swap(Board[0*8+curPos.y()],Board[3*8+curPos.y()]);
-                    swap(Board[4*8+curPos.y()],Board[2*8+curPos.y()]);
-                    curPos.setX(4);
-
-                }
-        tested_Pos = Board[7*8+(curPos.y())];
-        if(tested_Pos!=NULL)
-            if(tested_Pos->fig_hist.empty())
-                if(Board[5*8+curPos.y()]==NULL&&Board[6*8+curPos.y()]==NULL){
-                    swap(Board[7*8+curPos.y()],Board[5*8+curPos.y()]);
-                    swap(Board[4*8+curPos.y()],Board[6*8+curPos.y()]);
-                    curPos.setX(6);
-
-                    if(king->not_in_danger(Board,color)==true)
-                        PossMoves.push_back(curPos);
-
-                    swap(Board[7*8+curPos.y()],Board[5*8+curPos.y()]);
-                    swap(Board[4*8+curPos.y()],Board[6*8+curPos.y()]);
-                    curPos.setX(4);
-                }
-    }
-
-    Board[curPos.x()*8+curPos.y()] = currFig;
+    curPos = oldPos;
 
     return PossMoves;
 }
 
 bool King::not_in_danger( Figure *Board[], bool color){
+    //cout<<"King::not_in_danger\n";
     Pos test_Pos,
         cP = Board[64+color*16]->curPos;
-    //Figure *tested_Pos;
 
     for(int i=0;i<9;i++){ // if other king
         test_Pos.set(cP.x()+i/3-1,cP.y()+i%3-1);
@@ -456,7 +451,7 @@ bool King::not_in_danger( Figure *Board[], bool color){
             if(Board[(cP.x()-1)*8+cP.y()+1-color*2]->color!=color&&Board[(cP.x()-1)*8+cP.y()+1-color*2]->no==PAWN)
                 return false;
 
-
+    //cout<<"ater King::not_in_danger\n";
     return true;
 }
 

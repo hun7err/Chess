@@ -33,6 +33,7 @@ void pisz(vector<Pos> x){
 
 int main(){
     Chess gra;
+    pisz(gra);
     gra.move(NPos(1,0),NPos(0,2));
     gra.move(NPos(1,7),NPos(0,5));
     gra.move(NPos(3,1),NPos(3,3));
@@ -56,7 +57,7 @@ int main(){
     gra.undo();
  //   pisz(gra);
     gra.undo();
- //   pisz(gra);
+    pisz(gra);
     //pisz2(gra);
     return 0;
 }
