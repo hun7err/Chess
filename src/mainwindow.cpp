@@ -9,7 +9,7 @@
 #include <iostream>
 #include "../include/game.h"
 #include "../include/timeset.h"
-#include "../include/about.h"
+//#include "../include/about.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -194,6 +194,6 @@ void MainWindow::on_actionCofnij_triggered()
 
 void MainWindow::on_actionO_programie_triggered()
 {
-    About* about = new About();
-    about->exec();
+    //About* about = new About();
+    //about->exec();
 }
