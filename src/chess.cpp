@@ -181,8 +181,10 @@ int Chess::move(Pos oldPos, Pos newPos){
     else
         setStatus(1);
 
-    if(figures_to_move().empty())
+    if(figures_to_move().empty()) {
         setStatus(2+getStatus());
+        playing = false;
+    }
 
     if(rec.promoted) return 2;
     else return 1;

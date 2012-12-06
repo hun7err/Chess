@@ -62,31 +62,15 @@
       <x>530</x>
       <y>100</y>
       <width>201</width>
-      <height>419</height>
+      <height>91</height>
      </rect>
     </property>
     <property name="title">
-     <string>Statystyki</string>
+     <string>Czasy</string>
     </property>
     <property name="flat">
      <bool>false</bool>
     </property>
-    <widget class="QListWidget" name="listWidget">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>160</y>
-       <width>181</width>
-       <height>261</height>
-      </rect>
-     </property>
-     <property name="autoScroll">
-      <bool>true</bool>
-     </property>
-     <property name="flow">
-      <enum>QListView::TopToBottom</enum>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
@@ -120,7 +104,7 @@
       </font>
      </property>
      <property name="text">
-      <string>10:00</string>
+      <string>--:--</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -143,7 +127,7 @@
       </font>
      </property>
      <property name="text">
-      <string>10:00</string>
+      <string>--:--</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -165,17 +149,33 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>210</y>
+      <width>201</width>
+      <height>311</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Historia ruchów</string>
+    </property>
+    <widget class="QListWidget" name="listWidget">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>90</y>
-       <width>93</width>
-       <height>22</height>
+       <x>10</x>
+       <y>30</y>
+       <width>181</width>
+       <height>261</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Ruch</string>
+     <property name="autoScroll">
+      <bool>true</bool>
+     </property>
+     <property name="flow">
+      <enum>QListView::TopToBottom</enum>
      </property>
     </widget>
    </widget>
@@ -194,7 +194,7 @@
    </property>
    <widget class="QMenu" name="menuPlik">
     <property name="title">
-     <string>Menu</string>
+     <string>Gra</string>
     </property>
     <addaction name="actionNowa_gra"/>
     <addaction name="actionWyjd"/>
@@ -218,7 +218,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionWyjd">
    <property name="text">
-    <string>Wyjdź</string>
+    <string>Zakończ</string>
    </property>
    <property name="shortcut">
     <string>Esc</string>

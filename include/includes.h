@@ -32,6 +32,8 @@
     #define CHECK 1
     #define MAT 3   // end of game by winning
     #define PAT 2   // end of game by no more possible moves
+    #define TIMEOUT_W 4
+    #define TIMEOUT_B 5
 
     #define ABS(x) ((x) < 0) ? -(x) : x
 

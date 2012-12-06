@@ -13,8 +13,9 @@ class TimeSet : public QDialog
     
 public:
     explicit TimeSet(QWidget *parent = 0);
+    const QString getTime();
     ~TimeSet();
-    
+
 private:
     Ui::TimeSet *ui;
 };

@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Nowa gra</string>
   </property>
   <widget class="QTimeEdit" name="timeEdit">
    <property name="geometry">

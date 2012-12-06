@@ -41,7 +41,7 @@ class Game {
         static MainWindow *window;
         static QPoint lastPos;
     public:
-        static bool playing;
+        static bool notPlaying;
         static Chess* chess;
         static void setLastPos(int x, int y);
         static QPoint getLastPos();
