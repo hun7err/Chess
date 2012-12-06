@@ -91,12 +91,11 @@ int Figure::getVal() {
 
 bool Figure::changeType(int newType){
     //cout<<"changeType\n";
-    if( no==PAWN )
-        if ( curPos.y() == 0 || curPos.y() == 7 )
-            if ( newType==ROOK || newType==BISHOP || newType==KNIGHT || newType==QUEEN ){
-                this->no = newType;
-                return true;
-            }
+    if( no!=KING )
+        if ( newType!=KING ){
+            this->no = newType;
+            return true;
+        }
     return false;
 }
 
