@@ -8,7 +8,8 @@
 #include <QTime>
 #include <iostream>
 #include "../include/game.h"
-#include "../ui/timeset.h"
+#include "../include/timeset.h"
+#include "../include/about.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -189,4 +190,10 @@ void MainWindow::on_actionCofnij_triggered()
                 Game::getElem(i,j)->repaint();
         timer->start(1000);
     }
+}
+
+void MainWindow::on_actionO_programie_triggered()
+{
+    About* about = new About();
+    about->exec();
 }

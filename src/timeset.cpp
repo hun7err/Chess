@@ -1,4 +1,4 @@
-#include "timeset.h"
+#include "../include/timeset.h"
 #include "ui_timeset.h"
 #include <QObject>
 

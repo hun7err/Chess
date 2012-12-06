@@ -16,15 +16,21 @@ SOURCES += ../src/mainwindow.cpp \
     ../src/main.cpp \
     ../src/game.cpp \
     ../src/figures.cpp \
-    ../src/chess.cpp
+    ../src/chess.cpp \
+    ../src/timeset.cpp \
+    ../src/about.cpp
 
 HEADERS  += ../include/mainwindow.h \
     ../include/includes.h \
     ../include/game.h \
     ../include/figures.h \
-    ../include/chess.h
+    ../include/chess.h \
+    ../include/timeset.h \
+    ../include/about.h
 
-FORMS    += ../ui/mainwindow.ui
+FORMS    += ../ui/mainwindow.ui \
+            ../ui/timeset.ui \
+            ../ui/about.ui
 
 RESOURCES += ../res/resources.qrc
 
@@ -39,12 +45,3 @@ CONFIG(release, debug|release) {
         OBJECTS_DIR = ../obj/release
         MOC_DIR = ../moc/release
 }
-
-HEADERS += \
-    ../ui/timeset.h
-
-SOURCES += \
-    ../ui/timeset.cpp
-
-FORMS += \
-    ../ui/timeset.ui

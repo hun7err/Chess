@@ -32,6 +32,8 @@ private slots:
 
     void on_actionCofnij_triggered();
 
+    void on_actionO_programie_triggered();
+
 signals:
     void setCurPlayer(const QString&);
     void addHistItem(const QString&);
