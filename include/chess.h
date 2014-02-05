@@ -13,7 +13,7 @@
             bool playing;
             vector <Pos> Poss_Moves;
             list <string> moves;
-            stack <Figure*> History;
+            stack <int> History;
             bool curr_color;
             Figure * Board[100]; // ind 0-63 <- board
                              // ind 64-95 <- pointers to Set

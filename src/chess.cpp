@@ -165,7 +165,7 @@ int Chess::move(Pos oldPos, Pos newPos){
     Board[oldPos.x()*8+oldPos.y()] = NULL;
     rec.Position_after.set(tmp->curPos);
     tmp->fig_hist.push(rec);
-    History.push(tmp);
+    History.push(tmp->index);
 
     moves.push_back(AddToHistory(rec));
 
@@ -194,8 +194,8 @@ bool Chess::undo(){
     //cout<<"Chess::undo\n";
 
     if(History.empty()) return false;
-    Hist_rec rec = History.top()->fig_hist.top();
-    History.top()->fig_hist.pop();
+    Hist_rec rec = Set[History.top()]->fig_hist.top();
+    Set[History.top()]->fig_hist.pop();
     History.pop();
     Figure *tmp = Board[rec.Position_after.x()*8+rec.Position_after.y()];
     Board[rec.Position_after.x()*8+rec.Position_after.y()] = NULL;
@@ -223,7 +223,7 @@ bool Chess::undo(){
     }
     if(History.empty())
         Board[99] = NULL;
-    else Board[99] = History.top();
+    else Board[99] = Set[History.top()];
 
     if(curr_color) curr_color = false;
     else{
