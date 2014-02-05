@@ -180,7 +180,7 @@ void MainWindow::addHistoryItem(const QString &q) {
 
 void MainWindow::on_actionCofnij_triggered()
 {
-    if(!Game::notPlaying && ui->listWidget->count() != 0) {
+    if(!Game::notPlaying && Game::chess->playing && ui->listWidget->count() != 0) {
         timer->stop();
 
         Game::chess->undo();
@@ -190,6 +190,10 @@ void MainWindow::on_actionCofnij_triggered()
                 Game::getElem(i,j)->repaint();
         timer->start(1000);
     }
+}
+
+void MainWindow::setStatus(const QString& q) {
+    ui->statusBar->showMessage(q);
 }
 
 void MainWindow::on_actionO_programie_triggered()

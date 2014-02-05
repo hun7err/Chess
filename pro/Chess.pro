@@ -18,7 +18,7 @@ SOURCES += ../src/mainwindow.cpp \
     ../src/figures.cpp \
     ../src/chess.cpp \
     ../src/timeset.cpp \
-    ../src/about.cpp
+#    ../src/about.cpp
 
 HEADERS  += ../include/mainwindow.h \
     ../include/includes.h \
@@ -26,11 +26,11 @@ HEADERS  += ../include/mainwindow.h \
     ../include/figures.h \
     ../include/chess.h \
     ../include/timeset.h \
-    ../include/about.h
+#    ../include/about.h
 
 FORMS    += ../ui/mainwindow.ui \
             ../ui/timeset.ui \
-            ../ui/about.ui
+#            ../ui/about.ui
 
 RESOURCES += ../res/resources.qrc
 

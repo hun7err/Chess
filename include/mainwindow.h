@@ -20,6 +20,7 @@ public:
     void startTimer(int interval);
     bool timerActive();
     void undoMove();
+    void setStatus(const QString& q);
     ~MainWindow();
     
 private slots:
